@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import re
 from abc import ABC, abstractmethod
 from enum import Enum
@@ -11,11 +10,12 @@ from types import UnionType
 from typing import TYPE_CHECKING, Any, Callable, ClassVar, Iterable, Literal, Optional, Type, TypeVar, Union
 
 import semver
-from pydantic import BaseModel, ConfigDict, Field, create_model, field_validator
+from pydantic import BaseModel, ConfigDict, Field, create_model
 from pydantic.fields import _Unset
 from pydantic_core import PydanticUndefined
 
 from invokeai.app.services.config.config_default import InvokeAIAppConfig
+from invokeai.app.services.workflow_records.workflow_records_common import Workflow
 from invokeai.app.util.misc import uuid_string
 
 if TYPE_CHECKING:
@@ -60,7 +60,12 @@ class FieldDescriptions:
     denoised_latents = "Denoised latents tensor"
     latents = "Latents tensor"
     strength = "Strength of denoising (proportional to steps)"
-    core_metadata = "Optional core metadata to be written to image"
+    metadata = "Optional metadata to be saved with the image"
+    metadata_dict_collection = "Collection of MetadataDicts"
+    metadata_item_polymorphic = "A single metadata item or collection of metadata items"
+    metadata_item_label = "Label for this metadata item"
+    metadata_item_value = "The value for this metadata item (may be any type)"
+    workflow = "Optional workflow to be saved with the image"
     interp_mode = "Interpolation mode"
     torch_antialias = "Whether or not to apply antialiasing (bilinear or bicubic only)"
     fp32 = "Whether or not to use full float32 precision"
@@ -167,8 +172,12 @@ class UIType(str, Enum):
     Scheduler = "Scheduler"
     WorkflowField = "WorkflowField"
     IsIntermediate = "IsIntermediate"
-    MetadataField = "MetadataField"
     BoardField = "BoardField"
+    Any = "Any"
+    MetadataItem = "MetadataItem"
+    MetadataItemCollection = "MetadataItemCollection"
+    MetadataItemPolymorphic = "MetadataItemPolymorphic"
+    MetadataDict = "MetadataDict"
     # endregion
 
 
@@ -630,26 +639,7 @@ class BaseInvocation(ABC, BaseModel):
         description="Whether or not this is an intermediate invocation.",
         json_schema_extra=dict(ui_type=UIType.IsIntermediate),
     )
-    workflow: Optional[str] = Field(
-        default=None,
-        description="The workflow to save with the image",
-        json_schema_extra=dict(ui_type=UIType.WorkflowField),
-    )
-    use_cache: Optional[bool] = Field(
-        default=True,
-        description="Whether or not to use the cache",
-    )
-
-    @field_validator("workflow", mode="before")
-    @classmethod
-    def validate_workflow_is_json(cls, v):
-        if v is None:
-            return None
-        try:
-            json.loads(v)
-        except json.decoder.JSONDecodeError:
-            raise ValueError("Workflow must be valid JSON")
-        return v
+    use_cache: bool = InputField(default=True, description="Whether or not to use the cache")
 
     UIConfig: ClassVar[Type[UIConfigBase]]
 
@@ -786,4 +776,7 @@ def invocation_output(
     return wrapper
 
 
-GenericBaseModel = TypeVar("GenericBaseModel", bound=BaseModel)
+class WithWorkflow(BaseModel):
+    workflow: Optional[Workflow] = InputField(
+        default=None, description=FieldDescriptions.workflow, ui_type=UIType.WorkflowField
+    )

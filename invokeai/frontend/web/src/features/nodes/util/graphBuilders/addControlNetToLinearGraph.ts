@@ -5,14 +5,13 @@ import {
   CollectInvocation,
   ControlField,
   ControlNetInvocation,
-  MetadataAccumulatorInvocation,
 } from 'services/api/types';
-import { NonNullableGraph } from '../../types/types';
+import { NonNullableGraph, zControlField } from '../../types/types';
 import {
   CANVAS_COHERENCE_DENOISE_LATENTS,
   CONTROL_NET_COLLECT,
-  METADATA_ACCUMULATOR,
 } from './constants';
+import { addMainMetadata } from './metadata';
 
 export const addControlNetToLinearGraph = (
   state: RootState,
@@ -117,5 +116,6 @@ export const addControlNetToLinearGraph = (
         });
       }
     });
+    addMainMetadata(graph, { controlnets });
   }
 };

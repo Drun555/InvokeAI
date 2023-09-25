@@ -1,9 +1,9 @@
-import json
 import sqlite3
 import threading
 from datetime import datetime
 from typing import Optional, Union, cast
 
+from invokeai.app.invocations.metadata import Metadata
 from invokeai.app.services.shared.pagination import OffsetPaginatedResults
 from invokeai.app.services.shared.sqlite import SqliteDatabase
 
@@ -76,6 +76,16 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
                 """
             )
 
+        if "workflow_id" not in columns:
+            self._cursor.execute(
+                """--sql
+                ALTER TABLE images
+                ADD COLUMN workflow_id TEXT;
+                -- TODO: This requires a migration:
+                -- FOREIGN KEY (workflow_id) REFERENCES workflows (workflow_id) ON DELETE SET NULL;
+                """
+            )
+
         # Create the `images` table indices.
         self._cursor.execute(
             """--sql
@@ -141,22 +151,26 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
 
         return deserialize_image_record(dict(result))
 
-    def get_metadata(self, image_name: str) -> Optional[dict]:
+    def get_metadata(self, image_name: str) -> Optional[Metadata]:
         try:
             self._lock.acquire()
 
             self._cursor.execute(
                 """--sql
-                SELECT images.metadata FROM images
+                SELECT metadata FROM images
                 WHERE image_name = ?;
                 """,
                 (image_name,),
             )
 
             result = cast(Optional[sqlite3.Row], self._cursor.fetchone())
-            if not result or not result[0]:
-                return None
-            return json.loads(result[0])
+
+            if not result:
+                raise ImageRecordNotFoundException
+
+            as_dict = dict(result)
+            metadata_raw = cast(Optional[str], as_dict.get("metadata", None))
+            return Metadata.parse_raw(metadata_raw) if metadata_raw is not None else None
         except sqlite3.Error as e:
             self._conn.rollback()
             raise ImageRecordNotFoundException from e
@@ -393,10 +407,11 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
         starred: Optional[bool] = False,
         session_id: Optional[str] = None,
         node_id: Optional[str] = None,
-        metadata: Optional[dict] = None,
+        metadata: Optional[Metadata] = None,
+        workflow_id: Optional[str] = None,
     ) -> datetime:
         try:
-            metadata_json = None if metadata is None else json.dumps(metadata)
+            metadata_json = metadata.model_dump_json() if metadata is not None else None
             self._lock.acquire()
             self._cursor.execute(
                 """--sql
@@ -409,10 +424,11 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
                     node_id,
                     session_id,
                     metadata,
+                    workflow_id,
                     is_intermediate,
                     starred
                     )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """,
                 (
                     image_name,
@@ -423,6 +439,7 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
                     node_id,
                     session_id,
                     metadata_json,
+                    workflow_id,
                     is_intermediate,
                     starred,
                 ),

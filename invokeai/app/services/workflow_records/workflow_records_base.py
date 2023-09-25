@@ -12,6 +12,6 @@ class WorkflowRecordsStorageBase(ABC):
         pass
 
     @abstractmethod
-    def create(self, workflow: dict) -> Workflow:
+    def create(self, workflow: Workflow) -> Workflow:
         """Creates a workflow."""
         pass

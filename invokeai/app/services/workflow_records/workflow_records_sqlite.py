@@ -50,16 +50,15 @@ class SqliteWorkflowRecordsStorage(WorkflowRecordsStorageBase):
         try:
             # workflows do not have ids until they are saved
             workflow_id = uuid_string()
-            workflow["id"] = workflow_id
+            workflow_dict = workflow.dict()
+            workflow_dict["id"] = workflow_id
             self._lock.acquire()
             self._cursor.execute(
                 """--sql
                 INSERT INTO workflows(workflow)
-                VALUES (?)
-                ON CONFLICT(workflow_id)
-                DO UPDATE SET workflow = excluded.workflow;
+                VALUES (?);
                 """,
-                (json.dumps(workflow),),
+                (workflow.json(),),
             )
             self._conn.commit()
         except Exception:
