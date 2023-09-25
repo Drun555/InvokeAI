@@ -101,12 +101,17 @@ export type paths = {
      */
     patch: operations['update_image'];
   };
-  '/api/v1/images/clear-intermediates': {
+  '/api/v1/images/intermediates': {
+    /**
+     * Get Intermediates Count
+     * @description Gets the count of intermediate images
+     */
+    get: operations['get_intermediates_count'];
     /**
      * Clear Intermediates
      * @description Clears all intermediates
      */
-    post: operations['clear_intermediates'];
+    delete: operations['clear_intermediates'];
   };
   '/api/v1/images/i/{image_name}/metadata': {
     /**
@@ -8932,6 +8937,30 @@ export type components = {
       ui_order: number | null;
     };
     /**
+     * CLIPVisionModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    CLIPVisionModelFormat: 'diffusers';
+    /**
+     * StableDiffusion1ModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    StableDiffusion1ModelFormat: 'checkpoint' | 'diffusers';
+    /**
+     * StableDiffusionXLModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    StableDiffusionXLModelFormat: 'checkpoint' | 'diffusers';
+    /**
+     * IPAdapterModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    IPAdapterModelFormat: 'invokeai';
+    /**
      * ControlNetModelFormat
      * @description An enumeration.
      * @enum {string}
@@ -8949,30 +8978,6 @@ export type components = {
      * @enum {string}
      */
     StableDiffusion2ModelFormat: 'checkpoint' | 'diffusers';
-    /**
-     * StableDiffusion1ModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    StableDiffusion1ModelFormat: 'checkpoint' | 'diffusers';
-    /**
-     * CLIPVisionModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    CLIPVisionModelFormat: 'diffusers';
-    /**
-     * StableDiffusionXLModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    StableDiffusionXLModelFormat: 'checkpoint' | 'diffusers';
-    /**
-     * IPAdapterModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    IPAdapterModelFormat: 'invokeai';
   };
   responses: never;
   parameters: never;
@@ -10164,6 +10169,20 @@ export type operations = {
       422: {
         content: {
           'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  /**
+   * Get Intermediates Count
+   * @description Gets the count of intermediate images
+   */
+  get_intermediates_count: {
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          'application/json': unknown;
         };
       };
     };

@@ -1,7 +1,7 @@
 import { Heading, Text } from '@chakra-ui/react';
 import { useAppDispatch } from 'app/store/storeHooks';
 import { controlAdaptersReset } from 'features/controlAdapters/store/controlAdaptersSlice';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import IAIButton from '../../../../common/components/IAIButton';
 import {
   useClearIntermediatesMutation,
@@ -14,8 +14,12 @@ import StyledFlex from './StyledFlex';
 export default function SettingsClearIntermediates() {
   const dispatch = useAppDispatch();
 
-  const { data: intermediatesCount, refetch: updateIntermediatesCount } =
-    useGetIntermediatesCountQuery();
+  const { data: intermediatesCount } = useGetIntermediatesCountQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const [clearIntermediates, { isLoading: isLoadingClearIntermediates }] =
     useClearIntermediatesMutation();
@@ -34,11 +38,6 @@ export default function SettingsClearIntermediates() {
         );
       });
   }, [clearIntermediates, dispatch]);
-
-  useEffect(() => {
-    // update the count on mount
-    updateIntermediatesCount();
-  }, [updateIntermediatesCount]);
 
   const buttonText = intermediatesCount
     ? `Clear ${intermediatesCount} Intermediate${
