@@ -15,8 +15,8 @@ from pydantic.fields import _Unset
 from pydantic_core import PydanticUndefined
 
 from invokeai.app.services.config.config_default import InvokeAIAppConfig
-from invokeai.app.services.workflow_records.workflow_records_common import Workflow
 from invokeai.app.util.misc import uuid_string
+from invokeai.app.services.workflow_records.workflow_records_common import WorkflowField
 
 if TYPE_CHECKING:
     from ..services.invocation_services import InvocationServices
@@ -61,7 +61,7 @@ class FieldDescriptions:
     latents = "Latents tensor"
     strength = "Strength of denoising (proportional to steps)"
     metadata = "Optional metadata to be saved with the image"
-    metadata_dict_collection = "Collection of MetadataDicts"
+    metadata_collection = "Collection of Metadata"
     metadata_item_polymorphic = "A single metadata item or collection of metadata items"
     metadata_item_label = "Label for this metadata item"
     metadata_item_value = "The value for this metadata item (may be any type)"
@@ -777,6 +777,4 @@ def invocation_output(
 
 
 class WithWorkflow(BaseModel):
-    workflow: Optional[Workflow] = InputField(
-        default=None, description=FieldDescriptions.workflow, ui_type=UIType.WorkflowField
-    )
+    workflow: Optional[WorkflowField] = InputField(default=None, description=FieldDescriptions.workflow)

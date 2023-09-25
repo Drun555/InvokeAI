@@ -28,14 +28,6 @@ export type BatchConfig =
 export type EnqueueBatchResult = components['schemas']['EnqueueBatchResult'];
 export type EnqueueGraphResult = components['schemas']['EnqueueGraphResult'];
 
-/**
- * This is an unsafe type; the object inside is not guaranteed to be valid.
- */
-export type UnsafeImageMetadata = {
-  metadata: s['CoreMetadata'];
-  graph: NonNullable<s['Graph']>;
-};
-
 export type _InputField = s['_InputField'];
 export type _OutputField = s['_OutputField'];
 
@@ -51,7 +43,6 @@ export type ImageChanges = s['ImageRecordChanges'];
 export type ImageCategory = s['ImageCategory'];
 export type ResourceOrigin = s['ResourceOrigin'];
 export type ImageField = s['ImageField'];
-export type ImageMetadata = s['ImageMetadata'];
 export type OffsetPaginatedResults_BoardDTO_ =
   s['OffsetPaginatedResults_BoardDTO_'];
 export type OffsetPaginatedResults_ImageDTO_ =
@@ -145,7 +136,6 @@ export type ImageCollectionInvocation = s['ImageCollectionInvocation'];
 export type MainModelLoaderInvocation = s['MainModelLoaderInvocation'];
 export type OnnxModelLoaderInvocation = s['OnnxModelLoaderInvocation'];
 export type LoraLoaderInvocation = s['LoraLoaderInvocation'];
-export type MetadataAccumulatorInvocation = s['MetadataAccumulatorInvocation'];
 export type ESRGANInvocation = s['ESRGANInvocation'];
 export type DivideInvocation = s['DivideInvocation'];
 export type ImageNSFWBlurInvocation = s['ImageNSFWBlurInvocation'];
@@ -157,10 +147,10 @@ export type MetadataInvocationAsCollection = Omit<
   s['MetadataInvocation'],
   'items'
 > & {
-  items: s['MetadataItem'][];
+  items: s['MetadataItemField'][];
 };
 export type MetadataItemInvocation = s['MetadataItemInvocation'];
-export type MergeMetadataDictInvocation = s['MergeMetadataDictInvocation'];
+export type MergeMetadataInvocation = s['MergeMetadataInvocation'];
 
 // ControlNet Nodes
 export type ControlNetInvocation = s['ControlNetInvocation'];

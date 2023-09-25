@@ -114,9 +114,9 @@ export const zFieldType = z.enum([
   'LatentsPolymorphic',
   'LoRAModelField',
   'MainModelField',
-  'MetadataDict',
-  'MetadataDictCollection',
-  'MetadataItem',
+  'MetadataField',
+  'MetadataCollection',
+  'MetadataItemField',
   'MetadataItemCollection',
   'MetadataItemPolymorphic',
   'ONNXModelField',
@@ -695,15 +695,15 @@ export type CollectionItemInputFieldValue = z.infer<
   typeof zCollectionItemInputFieldValue
 >;
 
-export const zMetadataItem = z.object({
+export const zMetadataItemField = z.object({
   label: z.string(),
   value: z.any(),
 });
-export type MetadataItem = z.infer<typeof zMetadataItem>;
+export type MetadataItemField = z.infer<typeof zMetadataItemField>;
 
 export const zMetadataItemInputFieldValue = zInputFieldValueBase.extend({
-  type: z.literal('MetadataItem'),
-  value: zMetadataItem.optional(),
+  type: z.literal('MetadataItemField'),
+  value: zMetadataItemField.optional(),
 });
 export type MetadataItemInputFieldValue = z.infer<
   typeof zMetadataItemInputFieldValue
@@ -712,7 +712,7 @@ export type MetadataItemInputFieldValue = z.infer<
 export const zMetadataItemCollectionInputFieldValue =
   zInputFieldValueBase.extend({
     type: z.literal('MetadataItemCollection'),
-    value: z.array(zMetadataItem).optional(),
+    value: z.array(zMetadataItemField).optional(),
   });
 export type MetadataItemCollectionInputFieldValue = z.infer<
   typeof zMetadataItemCollectionInputFieldValue
@@ -721,30 +721,29 @@ export type MetadataItemCollectionInputFieldValue = z.infer<
 export const zMetadataItemPolymorphicInputFieldValue =
   zInputFieldValueBase.extend({
     type: z.literal('MetadataItemPolymorphic'),
-    value: z.union([zMetadataItem, z.array(zMetadataItem)]).optional(),
+    value: z
+      .union([zMetadataItemField, z.array(zMetadataItemField)])
+      .optional(),
   });
 export type MetadataItemPolymorphicInputFieldValue = z.infer<
   typeof zMetadataItemPolymorphicInputFieldValue
 >;
 
-export const zMetadataDict = z.record(z.any());
-export type MetadataDict = z.infer<typeof zMetadataDict>;
+export const zMetadataField = z.record(z.any());
+export type MetadataField = z.infer<typeof zMetadataField>;
 
-export const zMetadataDictInputFieldValue = zInputFieldValueBase.extend({
-  type: z.literal('MetadataDict'),
-  value: zMetadataDict.optional(),
+export const zMetadataInputFieldValue = zInputFieldValueBase.extend({
+  type: z.literal('MetadataField'),
+  value: zMetadataField.optional(),
 });
-export type MetadataDictInputFieldValue = z.infer<
-  typeof zMetadataDictInputFieldValue
->;
+export type MetadataInputFieldValue = z.infer<typeof zMetadataInputFieldValue>;
 
-export const zMetadataDictCollectionInputFieldValue =
-  zInputFieldValueBase.extend({
-    type: z.literal('MetadataDictCollection'),
-    value: z.array(zMetadataDict).optional(),
-  });
-export type MetadataDictCollectionInputFieldValue = z.infer<
-  typeof zMetadataDictCollectionInputFieldValue
+export const zMetadataCollectionInputFieldValue = zInputFieldValueBase.extend({
+  type: z.literal('MetadataCollection'),
+  value: z.array(zMetadataField).optional(),
+});
+export type MetadataCollectionInputFieldValue = z.infer<
+  typeof zMetadataCollectionInputFieldValue
 >;
 
 export const zColorField = z.object({
@@ -845,8 +844,8 @@ export const zInputFieldValue = z.discriminatedUnion('type', [
   zMetadataItemInputFieldValue,
   zMetadataItemCollectionInputFieldValue,
   zMetadataItemPolymorphicInputFieldValue,
-  zMetadataDictInputFieldValue,
-  zMetadataDictCollectionInputFieldValue,
+  zMetadataInputFieldValue,
+  zMetadataCollectionInputFieldValue,
 ]);
 
 export type InputFieldValue = z.infer<typeof zInputFieldValue>;
@@ -1019,7 +1018,7 @@ export type UNetInputFieldTemplate = InputFieldTemplateBase & {
 
 export type MetadataItemFieldTemplate = InputFieldTemplateBase & {
   default: undefined;
-  type: 'UNetField';
+  type: 'MetadataItemField';
 };
 
 export type ClipInputFieldTemplate = InputFieldTemplateBase & {
@@ -1172,7 +1171,7 @@ export type WorkflowInputFieldTemplate = InputFieldTemplateBase & {
 
 export type MetadataItemInputFieldTemplate = InputFieldTemplateBase & {
   default: undefined;
-  type: 'MetadataItem';
+  type: 'MetadataItemField';
 };
 
 export type MetadataItemCollectionInputFieldTemplate =
@@ -1188,16 +1187,15 @@ export type MetadataItemPolymorphicInputFieldTemplate = Omit<
   type: 'MetadataItemPolymorphic';
 };
 
-export type MetadataDictInputFieldTemplate = InputFieldTemplateBase & {
+export type MetadataInputFieldTemplate = InputFieldTemplateBase & {
   default: undefined;
-  type: 'MetadataDict';
+  type: 'MetadataField';
 };
 
-export type MetadataDictCollectionInputFieldTemplate =
-  InputFieldTemplateBase & {
-    default: undefined;
-    type: 'MetadataDictCollection';
-  };
+export type MetadataCollectionInputFieldTemplate = InputFieldTemplateBase & {
+  default: undefined;
+  type: 'MetadataCollection';
+};
 
 /**
  * An input field template is generated on each page load from the OpenAPI schema.
@@ -1259,9 +1257,9 @@ export type InputFieldTemplate =
   | VaeModelInputFieldTemplate
   | MetadataItemInputFieldTemplate
   | MetadataItemCollectionInputFieldTemplate
-  | MetadataDictInputFieldTemplate
+  | MetadataInputFieldTemplate
   | MetadataItemPolymorphicInputFieldTemplate
-  | MetadataDictCollectionInputFieldTemplate;
+  | MetadataCollectionInputFieldTemplate;
 
 export const isInputFieldValue = (
   field?: InputFieldValue | OutputFieldValue

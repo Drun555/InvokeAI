@@ -7,9 +7,9 @@ from PIL import Image, PngImagePlugin
 from PIL.Image import Image as PILImageType
 from send2trash import send2trash
 
-from invokeai.app.invocations.metadata import Metadata
+from invokeai.app.invocations.metadata import MetadataField
 from invokeai.app.services.invoker import Invoker
-from invokeai.app.services.workflow_records.workflow_records_common import Workflow
+from invokeai.app.services.workflow_records.workflow_records_common import WorkflowField
 from invokeai.app.util.thumbnails import get_thumbnail_name, make_thumbnail
 
 from .image_files_base import ImageFileStorageBase
@@ -56,8 +56,8 @@ class DiskImageFileStorage(ImageFileStorageBase):
         self,
         image: PILImageType,
         image_name: str,
-        metadata: Optional[Metadata] = None,
-        workflow: Optional[Workflow] = None,
+        metadata: Optional[MetadataField] = None,
+        workflow: Optional[WorkflowField] = None,
         thumbnail_size: int = 256,
     ) -> None:
         try:

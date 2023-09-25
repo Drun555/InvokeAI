@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body, Path
 
 from invokeai.app.api.dependencies import ApiDependencies
-from invokeai.app.services.workflow_records.workflow_records_common import Workflow
+from invokeai.app.services.workflow_records.workflow_records_common import WorkflowField
 
 workflows_router = APIRouter(prefix="/v1/workflows", tags=["workflows"])
 
@@ -10,12 +10,12 @@ workflows_router = APIRouter(prefix="/v1/workflows", tags=["workflows"])
     "/i/{workflow_id}",
     operation_id="get_workflow",
     responses={
-        200: {"model": Workflow},
+        200: {"model": WorkflowField},
     },
 )
 async def get_workflow(
     workflow_id: str = Path(description="The workflow to get"),
-) -> Workflow:
+) -> WorkflowField:
     """Gets a workflow"""
     return ApiDependencies.invoker.services.workflow_records.get(workflow_id)
 
@@ -24,11 +24,11 @@ async def get_workflow(
     "/create",
     operation_id="create_workflow",
     responses={
-        200: {"model": Workflow},
+        200: {"model": WorkflowField},
     },
 )
 async def create_workflow(
-    workflow: Workflow = Body(description="The workflow to create"),
-) -> Workflow:
+    workflow: WorkflowField = Body(description="The workflow to create"),
+) -> WorkflowField:
     """Creates a workflow"""
     return ApiDependencies.invoker.services.workflow_records.create(workflow)

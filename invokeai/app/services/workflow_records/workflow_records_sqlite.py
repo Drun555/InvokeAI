@@ -1,11 +1,10 @@
-import json
 import sqlite3
 import threading
 
 from invokeai.app.services.invoker import Invoker
 from invokeai.app.services.shared.sqlite import SqliteDatabase
 from invokeai.app.services.workflow_records.workflow_records_base import WorkflowRecordsStorageBase
-from invokeai.app.services.workflow_records.workflow_records_common import Workflow, WorkflowNotFoundError
+from invokeai.app.services.workflow_records.workflow_records_common import WorkflowField, WorkflowNotFoundError
 from invokeai.app.util.misc import uuid_string
 
 
@@ -25,7 +24,7 @@ class SqliteWorkflowRecordsStorage(WorkflowRecordsStorageBase):
     def start(self, invoker: Invoker) -> None:
         self._invoker = invoker
 
-    def get(self, workflow_id: str) -> Workflow:
+    def get(self, workflow_id: str) -> WorkflowField:
         try:
             self._lock.acquire()
             self._cursor.execute(
@@ -39,19 +38,18 @@ class SqliteWorkflowRecordsStorage(WorkflowRecordsStorageBase):
             row = self._cursor.fetchone()
             if row is None:
                 raise WorkflowNotFoundError(f"Workflow with id {workflow_id} not found")
-            return json.loads(row["workflow"])
+            return WorkflowField.parse_raw(row[0])
         except Exception:
             self._conn.rollback()
             raise
         finally:
             self._lock.release()
 
-    def create(self, workflow: Workflow) -> Workflow:
+    def create(self, workflow: WorkflowField) -> WorkflowField:
         try:
             # workflows do not have ids until they are saved
             workflow_id = uuid_string()
-            workflow_dict = workflow.dict()
-            workflow_dict["id"] = workflow_id
+            workflow.__root__["id"] = workflow_id
             self._lock.acquire()
             self._cursor.execute(
                 """--sql

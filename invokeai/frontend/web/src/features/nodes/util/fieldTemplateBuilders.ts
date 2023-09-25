@@ -56,8 +56,8 @@ import {
   LatentsPolymorphicInputFieldTemplate,
   LoRAModelInputFieldTemplate,
   MainModelInputFieldTemplate,
-  MetadataDictCollectionInputFieldTemplate,
-  MetadataDictInputFieldTemplate,
+  MetadataCollectionInputFieldTemplate,
+  MetadataInputFieldTemplate,
   MetadataItemCollectionInputFieldTemplate,
   MetadataItemInputFieldTemplate,
   MetadataItemPolymorphicInputFieldTemplate,
@@ -842,7 +842,7 @@ const buildMetadataItemInputFieldTemplate = ({
 }: BuildInputFieldArg): MetadataItemInputFieldTemplate => {
   const template: MetadataItemInputFieldTemplate = {
     ...baseField,
-    type: 'MetadataItem',
+    type: 'MetadataItemField',
     default: undefined,
   };
 
@@ -875,22 +875,22 @@ const buildMetadataItemPolymorphicInputFieldTemplate = ({
 
 const buildMetadataDictInputFieldTemplate = ({
   baseField,
-}: BuildInputFieldArg): MetadataDictInputFieldTemplate => {
-  const template: MetadataDictInputFieldTemplate = {
+}: BuildInputFieldArg): MetadataInputFieldTemplate => {
+  const template: MetadataInputFieldTemplate = {
     ...baseField,
-    type: 'MetadataDict',
+    type: 'MetadataField',
     default: undefined,
   };
 
   return template;
 };
 
-const buildMetadataDictCollectionInputFieldTemplate = ({
+const buildMetadataCollectionInputFieldTemplate = ({
   baseField,
-}: BuildInputFieldArg): MetadataDictCollectionInputFieldTemplate => {
-  const template: MetadataDictCollectionInputFieldTemplate = {
+}: BuildInputFieldArg): MetadataCollectionInputFieldTemplate => {
+  const template: MetadataCollectionInputFieldTemplate = {
     ...baseField,
-    type: 'MetadataDictCollection',
+    type: 'MetadataCollection',
     default: undefined,
   };
 
@@ -1073,11 +1073,11 @@ const TEMPLATE_BUILDER_MAP: {
   LatentsField: buildLatentsInputFieldTemplate,
   LatentsPolymorphic: buildLatentsPolymorphicInputFieldTemplate,
   LoRAModelField: buildLoRAModelInputFieldTemplate,
-  MetadataItem: buildMetadataItemInputFieldTemplate,
+  MetadataItemField: buildMetadataItemInputFieldTemplate,
   MetadataItemCollection: buildMetadataItemCollectionInputFieldTemplate,
   MetadataItemPolymorphic: buildMetadataItemPolymorphicInputFieldTemplate,
-  MetadataDict: buildMetadataDictInputFieldTemplate,
-  MetadataDictCollection: buildMetadataDictCollectionInputFieldTemplate,
+  MetadataField: buildMetadataDictInputFieldTemplate,
+  MetadataCollection: buildMetadataCollectionInputFieldTemplate,
   MainModelField: buildMainModelInputFieldTemplate,
   Scheduler: buildSchedulerInputFieldTemplate,
   SDXLMainModelField: buildSDXLMainModelInputFieldTemplate,

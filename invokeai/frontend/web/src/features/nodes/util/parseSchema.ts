@@ -17,7 +17,7 @@ import { buildInputFieldTemplate, getFieldType } from './fieldTemplateBuilders';
 
 const RESERVED_INPUT_FIELD_NAMES = ['id', 'type', 'use_cache'];
 const RESERVED_OUTPUT_FIELD_NAMES = ['type'];
-const RESERVED_FIELD_TYPES = ['IsIntermediate', 'WorkflowField'];
+const RESERVED_FIELD_TYPES = ['IsIntermediate'];
 
 const invocationDenylist: AnyInvocationType[] = ['graph'];
 

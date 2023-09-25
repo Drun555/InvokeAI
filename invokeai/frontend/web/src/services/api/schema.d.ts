@@ -580,12 +580,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -1029,12 +1029,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -1081,12 +1081,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -1290,12 +1290,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -1406,12 +1406,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -1614,12 +1614,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -2231,12 +2231,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -2624,16 +2624,16 @@ export type components = {
           | components['schemas']['ColorInvocation']
           | components['schemas']['ConditioningInvocation']
           | components['schemas']['ConditioningCollectionInvocation']
+          | components['schemas']['MetadataItemInvocation']
+          | components['schemas']['MetadataInvocation']
+          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['ControlNetInvocation']
+          | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['MainModelLoaderInvocation']
           | components['schemas']['LoraLoaderInvocation']
           | components['schemas']['SDXLLoraLoaderInvocation']
           | components['schemas']['VaeLoaderInvocation']
           | components['schemas']['SeamlessModeInvocation']
-          | components['schemas']['MetadataItemInvocation']
-          | components['schemas']['MetadataInvocation']
-          | components['schemas']['MergeMetadataDictInvocation']
-          | components['schemas']['ControlNetInvocation']
-          | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['SDXLModelLoaderInvocation']
           | components['schemas']['SDXLRefinerModelLoaderInvocation']
           | components['schemas']['IPAdapterInvocation']
@@ -2777,14 +2777,14 @@ export type components = {
           | components['schemas']['ColorCollectionOutput']
           | components['schemas']['ConditioningOutput']
           | components['schemas']['ConditioningCollectionOutput']
+          | components['schemas']['MetadataItemOutput']
+          | components['schemas']['MetadataOutput']
+          | components['schemas']['ControlOutput']
           | components['schemas']['ModelLoaderOutput']
           | components['schemas']['LoraLoaderOutput']
           | components['schemas']['SDXLLoraLoaderOutput']
           | components['schemas']['VaeLoaderOutput']
           | components['schemas']['SeamlessModeOutput']
-          | components['schemas']['MetadataItemOutput']
-          | components['schemas']['MetadataDictOutput']
-          | components['schemas']['ControlOutput']
           | components['schemas']['SDXLModelLoaderOutput']
           | components['schemas']['SDXLRefinerModelLoaderOutput']
           | components['schemas']['IPAdapterOutput']
@@ -2874,12 +2874,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3063,12 +3063,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3129,12 +3129,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3177,12 +3177,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3253,12 +3253,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3374,12 +3374,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3431,12 +3431,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3587,12 +3587,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3634,12 +3634,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3718,12 +3718,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3771,12 +3771,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3814,12 +3814,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3881,12 +3881,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -3944,12 +3944,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4018,12 +4018,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4086,12 +4086,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4212,12 +4212,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4269,12 +4269,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4320,12 +4320,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4380,12 +4380,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4677,12 +4677,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4840,12 +4840,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4897,12 +4897,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -4968,12 +4968,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5021,12 +5021,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5258,12 +5258,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5301,12 +5301,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5362,12 +5362,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5409,12 +5409,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5498,7 +5498,7 @@ export type components = {
      * Metadata Merge
      * @description Merged a collection of MetadataDict into a single MetadataDict.
      */
-    MergeMetadataDictInvocation: {
+    MergeMetadataInvocation: {
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5518,40 +5518,21 @@ export type components = {
       use_cache?: boolean | null;
       /**
        * Collection
-       * @description Collection of MetadataDicts
+       * @description Collection of Metadata
        */
-      collection?: components['schemas']['Metadata'][];
+      collection?: components['schemas']['MetadataField'][];
       /**
        * Type
-       * @default merge_metadata_dict
+       * @default merge_metadata
        * @enum {string}
        */
-      type: 'merge_metadata_dict';
+      type: 'merge_metadata';
     };
     /**
-     * Metadata
-     * @description Metadata dict
+     * MetadataField
+     * @description A dictionary of metadata, shape of which is arbitrary
      */
-    Metadata: Record<string, never>;
-    /**
-     * MetadataDictOutput
-     * @description Base class for all invocation outputs.
-     *
-     * All invocation outputs must use the `@invocation_output` decorator to provide their unique type.
-     */
-    MetadataDictOutput: {
-      /**
-       * Metadata Dict
-       * @description Metadata Dict
-       */
-      metadata_dict: components['schemas']['Metadata'];
-      /**
-       * Type
-       * @default metadata_dict
-       * @enum {string}
-       */
-      type: 'metadata_dict';
-    };
+    MetadataField: Record<string, never>;
     /**
      * Metadata
      * @description Takes a MetadataItem or collection of MetadataItems and outputs a MetadataDict.
@@ -5579,8 +5560,8 @@ export type components = {
        * @description A single metadata item or collection of metadata items
        */
       items?:
-        | components['schemas']['MetadataItem'][]
-        | components['schemas']['MetadataItem'];
+        | components['schemas']['MetadataItemField'][]
+        | components['schemas']['MetadataItemField'];
       /**
        * Type
        * @default metadata
@@ -5588,8 +5569,8 @@ export type components = {
        */
       type: 'metadata';
     };
-    /** MetadataItem */
-    MetadataItem: {
+    /** MetadataItemField */
+    MetadataItemField: {
       /**
        * Label
        * @description Label for this metadata item
@@ -5649,13 +5630,32 @@ export type components = {
        * Item
        * @description Metadata Item
        */
-      item: components['schemas']['MetadataItem'];
+      item: components['schemas']['MetadataItemField'];
       /**
        * Type
        * @default metadata_item_output
        * @enum {string}
        */
       type: 'metadata_item_output';
+    };
+    /**
+     * MetadataOutput
+     * @description Base class for all invocation outputs.
+     *
+     * All invocation outputs must use the `@invocation_output` decorator to provide their unique type.
+     */
+    MetadataOutput: {
+      /**
+       * Metadata
+       * @description Metadata Dict
+       */
+      metadata: components['schemas']['MetadataField'];
+      /**
+       * Type
+       * @default metadata_output
+       * @enum {string}
+       */
+      type: 'metadata_output';
     };
     /**
      * Midas Depth Processor
@@ -5666,12 +5666,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -5719,12 +5719,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -6004,12 +6004,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -6057,12 +6057,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -6413,12 +6413,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -6472,12 +6472,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -7310,12 +7310,12 @@ export type components = {
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -7584,12 +7584,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -8578,12 +8578,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -8753,10 +8753,10 @@ export type components = {
       type: string;
     };
     /**
-     * Workflow
+     * WorkflowField
      * @description Workflow dict
      */
-    Workflow: Record<string, never>;
+    WorkflowField: Record<string, never>;
     /**
      * Zoe (Depth) Processor
      * @description Applies Zoe depth processing to image
@@ -8766,12 +8766,12 @@ export type components = {
        * Workflow
        * @description Optional workflow to be saved with the image
        */
-      workflow?: components['schemas']['Workflow'];
+      workflow?: components['schemas']['WorkflowField'];
       /**
        * Metadata
        * @description Optional metadata to be saved with the image
        */
-      metadata?: components['schemas']['Metadata'];
+      metadata?: components['schemas']['MetadataField'];
       /**
        * Id
        * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
@@ -8937,23 +8937,11 @@ export type components = {
       ui_order: number | null;
     };
     /**
-     * CLIPVisionModelFormat
+     * ControlNetModelFormat
      * @description An enumeration.
      * @enum {string}
      */
-    CLIPVisionModelFormat: 'diffusers';
-    /**
-     * StableDiffusion1ModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    StableDiffusion1ModelFormat: 'checkpoint' | 'diffusers';
-    /**
-     * StableDiffusionXLModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    StableDiffusionXLModelFormat: 'checkpoint' | 'diffusers';
+    ControlNetModelFormat: 'checkpoint' | 'diffusers';
     /**
      * IPAdapterModelFormat
      * @description An enumeration.
@@ -8961,11 +8949,11 @@ export type components = {
      */
     IPAdapterModelFormat: 'invokeai';
     /**
-     * ControlNetModelFormat
+     * StableDiffusion1ModelFormat
      * @description An enumeration.
      * @enum {string}
      */
-    ControlNetModelFormat: 'checkpoint' | 'diffusers';
+    StableDiffusion1ModelFormat: 'checkpoint' | 'diffusers';
     /**
      * StableDiffusionOnnxModelFormat
      * @description An enumeration.
@@ -8978,6 +8966,18 @@ export type components = {
      * @enum {string}
      */
     StableDiffusion2ModelFormat: 'checkpoint' | 'diffusers';
+    /**
+     * CLIPVisionModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    CLIPVisionModelFormat: 'diffusers';
+    /**
+     * StableDiffusionXLModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    StableDiffusionXLModelFormat: 'checkpoint' | 'diffusers';
   };
   responses: never;
   parameters: never;
@@ -9119,16 +9119,16 @@ export type operations = {
           | components['schemas']['ColorInvocation']
           | components['schemas']['ConditioningInvocation']
           | components['schemas']['ConditioningCollectionInvocation']
+          | components['schemas']['MetadataItemInvocation']
+          | components['schemas']['MetadataInvocation']
+          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['ControlNetInvocation']
+          | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['MainModelLoaderInvocation']
           | components['schemas']['LoraLoaderInvocation']
           | components['schemas']['SDXLLoraLoaderInvocation']
           | components['schemas']['VaeLoaderInvocation']
           | components['schemas']['SeamlessModeInvocation']
-          | components['schemas']['MetadataItemInvocation']
-          | components['schemas']['MetadataInvocation']
-          | components['schemas']['MergeMetadataDictInvocation']
-          | components['schemas']['ControlNetInvocation']
-          | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['SDXLModelLoaderInvocation']
           | components['schemas']['SDXLRefinerModelLoaderInvocation']
           | components['schemas']['IPAdapterInvocation']
@@ -9275,16 +9275,16 @@ export type operations = {
           | components['schemas']['ColorInvocation']
           | components['schemas']['ConditioningInvocation']
           | components['schemas']['ConditioningCollectionInvocation']
+          | components['schemas']['MetadataItemInvocation']
+          | components['schemas']['MetadataInvocation']
+          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['ControlNetInvocation']
+          | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['MainModelLoaderInvocation']
           | components['schemas']['LoraLoaderInvocation']
           | components['schemas']['SDXLLoraLoaderInvocation']
           | components['schemas']['VaeLoaderInvocation']
           | components['schemas']['SeamlessModeInvocation']
-          | components['schemas']['MetadataItemInvocation']
-          | components['schemas']['MetadataInvocation']
-          | components['schemas']['MergeMetadataDictInvocation']
-          | components['schemas']['ControlNetInvocation']
-          | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['SDXLModelLoaderInvocation']
           | components['schemas']['SDXLRefinerModelLoaderInvocation']
           | components['schemas']['IPAdapterInvocation']
@@ -10216,7 +10216,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          'application/json': components['schemas']['Metadata'];
+          'application/json': components['schemas']['MetadataField'];
         };
       };
       /** @description Validation Error */
@@ -11227,7 +11227,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          'application/json': components['schemas']['Workflow'];
+          'application/json': components['schemas']['WorkflowField'];
         };
       };
       /** @description Validation Error */
@@ -11245,14 +11245,14 @@ export type operations = {
   create_workflow: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['Workflow'];
+        'application/json': components['schemas']['WorkflowField'];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          'application/json': components['schemas']['Workflow'];
+          'application/json': components['schemas']['WorkflowField'];
         };
       };
       /** @description Validation Error */

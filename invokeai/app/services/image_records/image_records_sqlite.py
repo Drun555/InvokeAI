@@ -3,7 +3,7 @@ import threading
 from datetime import datetime
 from typing import Optional, Union, cast
 
-from invokeai.app.invocations.metadata import Metadata
+from invokeai.app.invocations.metadata import MetadataField
 from invokeai.app.services.shared.pagination import OffsetPaginatedResults
 from invokeai.app.services.shared.sqlite import SqliteDatabase
 
@@ -151,7 +151,7 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
 
         return deserialize_image_record(dict(result))
 
-    def get_metadata(self, image_name: str) -> Optional[Metadata]:
+    def get_metadata(self, image_name: str) -> Optional[MetadataField]:
         try:
             self._lock.acquire()
 
@@ -170,7 +170,7 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
 
             as_dict = dict(result)
             metadata_raw = cast(Optional[str], as_dict.get("metadata", None))
-            return Metadata.parse_raw(metadata_raw) if metadata_raw is not None else None
+            return MetadataField.parse_raw(metadata_raw) if metadata_raw is not None else None
         except sqlite3.Error as e:
             self._conn.rollback()
             raise ImageRecordNotFoundException from e
@@ -422,7 +422,7 @@ class SqliteImageRecordStorage(ImageRecordStorageBase):
         starred: Optional[bool] = False,
         session_id: Optional[str] = None,
         node_id: Optional[str] = None,
-        metadata: Optional[Metadata] = None,
+        metadata: Optional[MetadataField] = None,
         workflow_id: Optional[str] = None,
     ) -> datetime:
         try:

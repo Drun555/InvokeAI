@@ -2,10 +2,10 @@ from typing import Optional
 
 from PIL.Image import Image as PILImageType
 
-from invokeai.app.invocations.metadata import Metadata
+from invokeai.app.invocations.metadata import MetadataField
 from invokeai.app.services.invoker import Invoker
 from invokeai.app.services.shared.pagination import OffsetPaginatedResults
-from invokeai.app.services.workflow_records.workflow_records_common import Workflow
+from invokeai.app.services.workflow_records.workflow_records_common import WorkflowField
 
 from ..image_files.image_files_common import (
     ImageFileDeleteException,
@@ -42,8 +42,8 @@ class ImageService(ImageServiceABC):
         session_id: Optional[str] = None,
         board_id: Optional[str] = None,
         is_intermediate: Optional[bool] = False,
-        metadata: Optional[Metadata] = None,
-        workflow: Optional[Workflow] = None,
+        metadata: Optional[MetadataField] = None,
+        workflow: Optional[WorkflowField] = None,
     ) -> ImageDTO:
         if image_origin not in ResourceOrigin:
             raise InvalidOriginException
@@ -153,7 +153,7 @@ class ImageService(ImageServiceABC):
             self.__invoker.services.logger.error("Problem getting image DTO")
             raise e
 
-    def get_metadata(self, image_name: str) -> Optional[Metadata]:
+    def get_metadata(self, image_name: str) -> Optional[MetadataField]:
         try:
             return self.__invoker.services.image_records.get_metadata(image_name)
         except ImageRecordNotFoundException:

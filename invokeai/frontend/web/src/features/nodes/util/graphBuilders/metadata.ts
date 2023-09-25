@@ -28,7 +28,7 @@ export const addMainMetadataNodeToGraph = (
 
   graph.nodes[MERGE_METADATA] = {
     id: MERGE_METADATA,
-    type: 'merge_metadata_dict',
+    type: 'merge_metadata',
   };
 
   graph.edges.push({

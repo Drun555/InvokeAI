@@ -34,7 +34,7 @@ export const COLLECTION_TYPES: FieldType[] = [
   'T2IAdapterCollection',
   'IPAdapterCollection',
   'MetadataItemCollection',
-  'MetadataDictCollection',
+  'MetadataCollection',
 ];
 
 export const POLYMORPHIC_TYPES: FieldType[] = [
@@ -83,6 +83,8 @@ export const COLLECTION_MAP: FieldTypeMapWithNumber = {
   IPAdapterField: 'IPAdapterCollection',
   MetadataItem: 'MetadataItemCollection',
   MetadataDict: 'MetadataDictCollection',
+  MetadataItemField: 'MetadataItemCollection',
+  MetadataField: 'MetadataCollection',
 };
 export const isCollectionItemType = (
   itemType: string | undefined
@@ -103,6 +105,7 @@ export const SINGLE_TO_POLYMORPHIC_MAP: FieldTypeMapWithNumber = {
   T2IAdapterField: 'T2IAdapterPolymorphic',
   IPAdapterField: 'IPAdapterPolymorphic',
   MetadataItem: 'MetadataItemPolymorphic',
+  MetadataItemField: 'MetadataItemPolymorphic',
 };
 
 export const POLYMORPHIC_TO_SINGLE_MAP: FieldTypeMap = {
@@ -118,6 +121,7 @@ export const POLYMORPHIC_TO_SINGLE_MAP: FieldTypeMap = {
   T2IAdapterPolymorphic: 'T2IAdapterField',
   IPAdapterPolymorphic: 'IPAdapterField',
   MetadataItemPolymorphic: 'MetadataItem',
+  MetadataItemPolymorphic: 'MetadataItemField',
 };
 
 export const TYPES_WITH_INPUT_COMPONENTS: FieldType[] = [
@@ -156,17 +160,17 @@ export const FIELDS: Record<FieldType, FieldUIConfig> = {
     description: 'Any field type is accepted.',
     title: 'Any',
   },
-  MetadataDict: {
+  MetadataField: {
     color: 'gray.500',
     description: 'A metadata dict.',
     title: 'Metadata Dict',
   },
-  MetadataDictCollection: {
+  MetadataCollection: {
     color: 'gray.500',
     description: 'A collection of metadata dicts.',
     title: 'Metadata Dict Collection',
   },
-  MetadataItem: {
+  MetadataItemField: {
     color: 'gray.500',
     description: 'A metadata item.',
     title: 'Metadata Item',
