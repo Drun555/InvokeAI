@@ -7,7 +7,6 @@ import cv2
 import numpy
 from PIL import Image, ImageChops, ImageFilter, ImageOps
 
-from invokeai.app.invocations.metadata import WithMetadata
 from invokeai.app.invocations.primitives import BoardField, ColorField, ImageField, ImageOutput
 from invokeai.app.services.image_records.image_records_common import ImageCategory, ResourceOrigin
 from invokeai.backend.image_util.invisible_watermark import InvisibleWatermark
@@ -21,6 +20,7 @@ from .baseinvocation import (
     InvocationContext,
     WithWorkflow,
     invocation,
+    WithMetadata,
 )
 
 

@@ -778,3 +778,24 @@ def invocation_output(
 
 class WithWorkflow(BaseModel):
     workflow: Optional[WorkflowField] = InputField(default=None, description=FieldDescriptions.workflow)
+
+
+class MetadataItemField(BaseModel):
+    label: str = Field(description=FieldDescriptions.metadata_item_label)
+    value: Any = Field(description=FieldDescriptions.metadata_item_value)
+
+
+class MetadataField(BaseModel):
+    """
+    Pydantic model for metadata with custom root of type dict[str, Any].
+    Workflows are stored without a strict schema.
+    """
+
+    __root__: dict[str, Any] = Field(description="A dictionary of metadata, shape of which is arbitrary")
+
+    def dict(self, *args, **kwargs) -> dict[str, Any]:
+        return super().dict(*args, **kwargs)["__root__"]
+
+
+class WithMetadata(BaseModel):
+    metadata: Optional[MetadataField] = InputField(default=None, description=FieldDescriptions.metadata)

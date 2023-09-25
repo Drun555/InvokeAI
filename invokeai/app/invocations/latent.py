@@ -23,7 +23,6 @@ from pydantic import field_validator
 from torchvision.transforms.functional import resize as tv_resize
 
 from invokeai.app.invocations.ip_adapter import IPAdapterField
-from invokeai.app.invocations.metadata import WithMetadata
 from invokeai.app.invocations.primitives import (
     DenoiseMaskField,
     DenoiseMaskOutput,
@@ -65,6 +64,7 @@ from .baseinvocation import (
     OutputField,
     UIType,
     WithWorkflow,
+    WithMetadata,
     invocation,
     invocation_output,
 )

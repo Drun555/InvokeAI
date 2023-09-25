@@ -10,12 +10,11 @@ from PIL import Image
 from pydantic import ConfigDict
 from realesrgan import RealESRGANer
 
-from invokeai.app.invocations.metadata import WithMetadata
 from invokeai.app.invocations.primitives import ImageField, ImageOutput
 from invokeai.app.services.image_records.image_records_common import ImageCategory, ResourceOrigin
 from invokeai.backend.util.devices import choose_torch_device
 
-from .baseinvocation import BaseInvocation, InputField, InvocationContext, WithWorkflow, invocation
+from .baseinvocation import BaseInvocation, InputField, InvocationContext, WithMetadata, WithWorkflow, invocation
 
 # TODO: Populate this from disk?
 # TODO: Use model manager to load?
