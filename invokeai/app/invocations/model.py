@@ -1,7 +1,7 @@
 import copy
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from ...backend.model_management import BaseModelType, ModelType, SubModelType
 from .baseinvocation import (
@@ -23,6 +23,8 @@ class ModelInfo(BaseModel):
     base_model: BaseModelType = Field(description="Base model")
     model_type: ModelType = Field(description="Info to load submodel")
     submodel: Optional[SubModelType] = Field(default=None, description="Info to load submodel")
+
+    model_config = ConfigDict(protected_namespaces=())
 
 
 class LoraInfo(ModelInfo):
@@ -65,12 +67,16 @@ class MainModelField(BaseModel):
     base_model: BaseModelType = Field(description="Base model")
     model_type: ModelType = Field(description="Model Type")
 
+    model_config = ConfigDict(protected_namespaces=())
+
 
 class LoRAModelField(BaseModel):
     """LoRA model field"""
 
     model_name: str = Field(description="Name of the LoRA model")
     base_model: BaseModelType = Field(description="Base model")
+
+    model_config = ConfigDict(protected_namespaces=())
 
 
 @invocation("main_model_loader", title="Main Model", tags=["model"], category="model", version="1.0.0")
@@ -169,8 +175,8 @@ class MainModelLoaderInvocation(BaseInvocation):
 class LoraLoaderOutput(BaseInvocationOutput):
     """Model loader output"""
 
-    unet: Optional[UNetField] = OutputField(default=None, description=FieldDescriptions.unet, title="UNet")
-    clip: Optional[ClipField] = OutputField(default=None, description=FieldDescriptions.clip, title="CLIP")
+    unet: UNetField = OutputField(default=None, description=FieldDescriptions.unet, title="UNet")
+    clip: ClipField = OutputField(default=None, description=FieldDescriptions.clip, title="CLIP")
 
 
 @invocation("lora_loader", title="LoRA", tags=["model"], category="model", version="1.0.0")
@@ -179,12 +185,8 @@ class LoraLoaderInvocation(BaseInvocation):
 
     lora: LoRAModelField = InputField(description=FieldDescriptions.lora_model, input=Input.Direct, title="LoRA")
     weight: float = InputField(default=0.75, description=FieldDescriptions.lora_weight)
-    unet: Optional[UNetField] = InputField(
-        default=None, description=FieldDescriptions.unet, input=Input.Connection, title="UNet"
-    )
-    clip: Optional[ClipField] = InputField(
-        default=None, description=FieldDescriptions.clip, input=Input.Connection, title="CLIP"
-    )
+    unet: UNetField = InputField(default=None, description=FieldDescriptions.unet, input=Input.Connection, title="UNet")
+    clip: ClipField = InputField(default=None, description=FieldDescriptions.clip, input=Input.Connection, title="CLIP")
 
     def invoke(self, context: InvocationContext) -> LoraLoaderOutput:
         if self.lora is None:
@@ -239,9 +241,9 @@ class LoraLoaderInvocation(BaseInvocation):
 class SDXLLoraLoaderOutput(BaseInvocationOutput):
     """SDXL LoRA Loader Output"""
 
-    unet: Optional[UNetField] = OutputField(default=None, description=FieldDescriptions.unet, title="UNet")
-    clip: Optional[ClipField] = OutputField(default=None, description=FieldDescriptions.clip, title="CLIP 1")
-    clip2: Optional[ClipField] = OutputField(default=None, description=FieldDescriptions.clip, title="CLIP 2")
+    unet: UNetField = OutputField(default=None, description=FieldDescriptions.unet, title="UNet")
+    clip: ClipField = OutputField(default=None, description=FieldDescriptions.clip, title="CLIP 1")
+    clip2: ClipField = OutputField(default=None, description=FieldDescriptions.clip, title="CLIP 2")
 
 
 @invocation("sdxl_lora_loader", title="SDXL LoRA", tags=["lora", "model"], category="model", version="1.0.0")
@@ -250,13 +252,11 @@ class SDXLLoraLoaderInvocation(BaseInvocation):
 
     lora: LoRAModelField = InputField(description=FieldDescriptions.lora_model, input=Input.Direct, title="LoRA")
     weight: float = InputField(default=0.75, description=FieldDescriptions.lora_weight)
-    unet: Optional[UNetField] = InputField(
-        default=None, description=FieldDescriptions.unet, input=Input.Connection, title="UNet"
-    )
-    clip: Optional[ClipField] = InputField(
+    unet: UNetField = InputField(default=None, description=FieldDescriptions.unet, input=Input.Connection, title="UNet")
+    clip: ClipField = InputField(
         default=None, description=FieldDescriptions.clip, input=Input.Connection, title="CLIP 1"
     )
-    clip2: Optional[ClipField] = InputField(
+    clip2: ClipField = InputField(
         default=None, description=FieldDescriptions.clip, input=Input.Connection, title="CLIP 2"
     )
 
@@ -330,6 +330,8 @@ class VAEModelField(BaseModel):
     model_name: str = Field(description="Name of the model")
     base_model: BaseModelType = Field(description="Base model")
 
+    model_config = ConfigDict(protected_namespaces=())
+
 
 @invocation_output("vae_loader_output")
 class VaeLoaderOutput(BaseInvocationOutput):
@@ -372,18 +374,16 @@ class VaeLoaderInvocation(BaseInvocation):
 class SeamlessModeOutput(BaseInvocationOutput):
     """Modified Seamless Model output"""
 
-    unet: Optional[UNetField] = OutputField(description=FieldDescriptions.unet, title="UNet")
-    vae: Optional[VaeField] = OutputField(description=FieldDescriptions.vae, title="VAE")
+    unet: UNetField = OutputField(description=FieldDescriptions.unet, title="UNet")
+    vae: VaeField = OutputField(description=FieldDescriptions.vae, title="VAE")
 
 
 @invocation("seamless", title="Seamless", tags=["seamless", "model"], category="model", version="1.0.0")
 class SeamlessModeInvocation(BaseInvocation):
     """Applies the seamless transformation to the Model UNet and VAE."""
 
-    unet: Optional[UNetField] = InputField(
-        default=None, description=FieldDescriptions.unet, input=Input.Connection, title="UNet"
-    )
-    vae: Optional[VaeField] = InputField(
+    unet: UNetField = InputField(default=None, description=FieldDescriptions.unet, input=Input.Connection, title="UNet")
+    vae: VaeField = InputField(
         default=None, description=FieldDescriptions.vae_model, input=Input.Connection, title="VAE"
     )
     seamless_y: bool = InputField(default=True, input=Input.Any, description="Specify whether Y axis is seamless")

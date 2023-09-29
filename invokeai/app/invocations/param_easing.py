@@ -1,5 +1,5 @@
 import io
-from typing import Literal, Optional
+from typing import Literal
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -106,9 +106,9 @@ class StepParamEasingInvocation(BaseInvocation):
     start_step_percent: float = InputField(default=0.0, description="fraction of steps at which to start easing")
     end_step_percent: float = InputField(default=1.0, description="fraction of steps after which to end easing")
     # if None, then start_value is used prior to easing start
-    pre_start_value: Optional[float] = InputField(default=None, description="value before easing start")
+    pre_start_value: float = InputField(default=None, description="value before easing start")
     # if None, then end value is used prior to easing end
-    post_end_value: Optional[float] = InputField(default=None, description="value after easing end")
+    post_end_value: float = InputField(default=None, description="value after easing end")
     mirror: bool = InputField(default=False, description="include mirror of easing function")
     # FIXME: add alt_mirror option (alternative to default or mirror), or remove entirely
     # alt_mirror: bool = InputField(default=False, description="alternative mirroring by dual easing")

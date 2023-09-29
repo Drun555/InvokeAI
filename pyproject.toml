@@ -46,7 +46,7 @@ dependencies = [
   "easing-functions",
   "einops",
   "facexlib",
-  "fastapi==0.88.0",
+  "fastapi",
   "fastapi-events==0.8.0",
   "huggingface-hub~=0.16.4",
   "invisible-watermark~=0.2.0", # needed to install SDXL base and refiner using their repo_ids

@@ -5,7 +5,7 @@ import itertools
 from typing import Annotated, Any, Optional, Union, get_args, get_origin, get_type_hints
 
 import networkx as nx
-from pydantic import BaseModel, root_validator, validator
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 from pydantic.fields import Field
 
 # Importing * is bad karma but needed here for node detection
@@ -235,7 +235,8 @@ class CollectInvocationOutput(BaseInvocationOutput):
 class CollectInvocation(BaseInvocation):
     """Collects values into a collection"""
 
-    item: Any = InputField(
+    item: Optional[Any] = InputField(
+        default=None,
         description="The item to collect (all inputs must be of the same type)",
         ui_type=UIType.CollectionItem,
         title="Collection Item",
@@ -250,8 +251,8 @@ class CollectInvocation(BaseInvocation):
         return CollectInvocationOutput(collection=copy.copy(self.collection))
 
 
-InvocationsUnion = Union[BaseInvocation.get_invocations()]  # type: ignore
-InvocationOutputsUnion = Union[BaseInvocationOutput.get_all_subclasses_tuple()]  # type: ignore
+InvocationsUnion = BaseInvocation.get_invocations_union()
+InvocationOutputsUnion = BaseInvocationOutput.get_outputs_union()
 
 
 class Graph(BaseModel):
@@ -817,15 +818,15 @@ class GraphExecutionState(BaseModel):
         default_factory=dict,
     )
 
-    @validator("graph")
+    @field_validator("graph")
     def graph_is_valid(cls, v: Graph):
         """Validates that the graph is valid"""
         v.validate_self()
         return v
 
-    class Config:
-        schema_extra = {
-            "required": [
+    model_config = ConfigDict(
+        json_schema_extra=dict(
+            required=[
                 "id",
                 "graph",
                 "execution_graph",
@@ -836,7 +837,8 @@ class GraphExecutionState(BaseModel):
                 "prepared_source_mapping",
                 "source_prepared_mapping",
             ]
-        }
+        )
+    )
 
     def next(self) -> Optional[BaseInvocation]:
         """Gets the next node ready to execute."""
@@ -1179,18 +1181,18 @@ class LibraryGraph(BaseModel):
         description="The outputs exposed by this graph", default_factory=list
     )
 
-    @validator("exposed_inputs", "exposed_outputs")
-    def validate_exposed_aliases(cls, v):
+    @field_validator("exposed_inputs", "exposed_outputs")
+    def validate_exposed_aliases(cls, v: list[Union[ExposedNodeInput, ExposedNodeOutput]]):
         if len(v) != len(set(i.alias for i in v)):
             raise ValueError("Duplicate exposed alias")
         return v
 
-    @root_validator
+    @model_validator(mode="after")
     def validate_exposed_nodes(cls, values):
-        graph = values["graph"]
+        graph = values.graph
 
         # Validate exposed inputs
-        for exposed_input in values["exposed_inputs"]:
+        for exposed_input in values.exposed_inputs:
             if not graph.has_node(exposed_input.node_path):
                 raise ValueError(f"Exposed input node {exposed_input.node_path} does not exist")
             node = graph.get_node(exposed_input.node_path)
@@ -1200,7 +1202,7 @@ class LibraryGraph(BaseModel):
                 )
 
         # Validate exposed outputs
-        for exposed_output in values["exposed_outputs"]:
+        for exposed_output in values.exposed_outputs:
             if not graph.has_node(exposed_output.node_path):
                 raise ValueError(f"Exposed output node {exposed_output.node_path} does not exist")
             node = graph.get_node(exposed_output.node_path)
@@ -1212,4 +1214,6 @@ class LibraryGraph(BaseModel):
         return values
 
 
-GraphInvocation.update_forward_refs()
+GraphInvocation.model_rebuild(force=True)
+Graph.model_rebuild(force=True)
+GraphExecutionState.model_rebuild(force=True)

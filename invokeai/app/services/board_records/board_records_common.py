@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, Union
 
-from pydantic import BaseModel, Extra, Field
+from pydantic import BaseModel, Field
 
 from invokeai.app.util.misc import get_iso_timestamp
 from invokeai.app.util.model_exclude_null import BaseModelExcludeNull
@@ -46,9 +46,9 @@ def deserialize_board_record(board_dict: dict) -> BoardRecord:
     )
 
 
-class BoardChanges(BaseModel, extra=Extra.forbid):
-    board_name: Optional[str] = Field(description="The board's new name.")
-    cover_image_name: Optional[str] = Field(description="The name of the board's new cover image.")
+class BoardChanges(BaseModel, extra="forbid"):
+    board_name: Optional[str] = Field(default=None, description="The board's new name.")
+    cover_image_name: Optional[str] = Field(default=None, description="The name of the board's new cover image.")
 
 
 class BoardRecordNotFoundException(Exception):

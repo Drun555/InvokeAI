@@ -3,7 +3,7 @@ from typing import Optional, Union
 
 import numpy as np
 from dynamicprompts.generators import CombinatorialPromptGenerator, RandomPromptGenerator
-from pydantic import validator
+from pydantic import field_validator
 
 from invokeai.app.invocations.primitives import StringCollectionOutput
 
@@ -50,7 +50,7 @@ class PromptsFromFileInvocation(BaseInvocation):
     start_line: int = InputField(default=1, ge=1, description="Line in the file to start start from")
     max_prompts: int = InputField(default=1, ge=0, description="Max lines to read from file (0=all)")
 
-    @validator("file_path")
+    @field_validator("file_path")
     def file_path_exists(cls, v):
         if not exists(v):
             raise ValueError(FileNotFoundError)

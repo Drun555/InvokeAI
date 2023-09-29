@@ -143,55 +143,55 @@ class MetadataAccumulatorInvocation(BaseInvocation):
     ipAdapters: list[IPAdapterMetadataField] = InputField(description="The IP Adapters used for inference")
     t2iAdapters: list[T2IAdapterField] = Field(description="The IP Adapters used for inference")
     loras: list[LoRAMetadataField] = InputField(description="The LoRAs used for inference")
-    strength: Optional[float] = InputField(
+    strength: float = InputField(
         default=None,
         description="The strength used for latents-to-latents",
     )
-    init_image: Optional[str] = InputField(
+    init_image: str = InputField(
         default=None,
         description="The name of the initial image",
     )
-    vae: Optional[VAEModelField] = InputField(
+    vae: VAEModelField = InputField(
         default=None,
         description="The VAE used for decoding, if the main model's default was not used",
     )
 
     # SDXL
-    positive_style_prompt: Optional[str] = InputField(
+    positive_style_prompt: str = InputField(
         default=None,
         description="The positive style prompt parameter",
     )
-    negative_style_prompt: Optional[str] = InputField(
+    negative_style_prompt: str = InputField(
         default=None,
         description="The negative style prompt parameter",
     )
 
     # SDXL Refiner
-    refiner_model: Optional[MainModelField] = InputField(
+    refiner_model: MainModelField = InputField(
         default=None,
         description="The SDXL Refiner model used",
     )
-    refiner_cfg_scale: Optional[float] = InputField(
+    refiner_cfg_scale: float = InputField(
         default=None,
         description="The classifier-free guidance scale parameter used for the refiner",
     )
-    refiner_steps: Optional[int] = InputField(
+    refiner_steps: int = InputField(
         default=None,
         description="The number of steps used for the refiner",
     )
-    refiner_scheduler: Optional[str] = InputField(
+    refiner_scheduler: str = InputField(
         default=None,
         description="The scheduler used for the refiner",
     )
-    refiner_positive_aesthetic_score: Optional[float] = InputField(
+    refiner_positive_aesthetic_score: float = InputField(
         default=None,
         description="The aesthetic score used for the refiner",
     )
-    refiner_negative_aesthetic_score: Optional[float] = InputField(
+    refiner_negative_aesthetic_score: float = InputField(
         default=None,
         description="The aesthetic score used for the refiner",
     )
-    refiner_start: Optional[float] = InputField(
+    refiner_start: float = InputField(
         default=None,
         description="The start value used for refiner denoising",
     )
@@ -199,4 +199,4 @@ class MetadataAccumulatorInvocation(BaseInvocation):
     def invoke(self, context: InvocationContext) -> MetadataAccumulatorOutput:
         """Collects and outputs a CoreMetadata object"""
 
-        return MetadataAccumulatorOutput(metadata=CoreMetadata(**self.dict()))
+        return MetadataAccumulatorOutput(metadata=CoreMetadata(**self.model_dump()))

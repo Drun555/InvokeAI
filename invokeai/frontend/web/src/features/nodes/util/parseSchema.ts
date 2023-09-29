@@ -1,6 +1,6 @@
 import { logger } from 'app/logging/logger';
 import { parseify } from 'common/util/serialize';
-import { reduce } from 'lodash-es';
+import { reduce, startCase } from 'lodash-es';
 import { OpenAPIV3 } from 'openapi-types';
 import { AnyInvocationType } from 'services/events/types';
 import {
@@ -222,7 +222,7 @@ export const parseSchema = (
         outputsAccumulator[propertyName] = {
           fieldKind: 'output',
           name: propertyName,
-          title: property.title ?? '',
+          title: property.title ?? propertyName ? startCase(propertyName) : '',
           description: property.description ?? '',
           type: fieldType,
           ui_hidden: property.ui_hidden ?? false,

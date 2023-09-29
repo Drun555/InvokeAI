@@ -3,7 +3,7 @@
 from typing import Literal
 
 import numpy as np
-from pydantic import validator
+from pydantic import field_validator
 
 from invokeai.app.invocations.primitives import FloatOutput, IntegerOutput
 
@@ -178,7 +178,7 @@ class IntegerMathInvocation(BaseInvocation):
     a: int = InputField(default=0, description=FieldDescriptions.num_1)
     b: int = InputField(default=0, description=FieldDescriptions.num_2)
 
-    @validator("b")
+    @field_validator("b")
     def no_unrepresentable_results(cls, v, values):
         if values["operation"] == "DIV" and v == 0:
             raise ValueError("Cannot divide by zero")
@@ -252,7 +252,7 @@ class FloatMathInvocation(BaseInvocation):
     a: float = InputField(default=0, description=FieldDescriptions.num_1)
     b: float = InputField(default=0, description=FieldDescriptions.num_2)
 
-    @validator("b")
+    @field_validator("b")
     def no_unrepresentable_results(cls, v, values):
         if values["operation"] == "DIV" and v == 0:
             raise ValueError("Cannot divide by zero")

@@ -2,7 +2,7 @@ import inspect
 from enum import Enum
 from typing import Literal, get_origin
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from .base import (  # noqa: F401
     BaseModelType,
@@ -105,6 +105,8 @@ class OpenAPIModelInfoBase(BaseModel):
     model_name: str
     base_model: BaseModelType
     model_type: ModelType
+
+    model_config = ConfigDict(protected_namespaces=())
 
 
 for base_model, models in MODEL_CLASSES.items():

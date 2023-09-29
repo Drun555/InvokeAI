@@ -19,7 +19,7 @@ from diffusers import logging as diffusers_logging
 from onnx import numpy_helper
 from onnxruntime import InferenceSession, SessionOptions, get_available_providers
 from picklescan.scanner import scan_file_path
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from transformers import logging as transformers_logging
 
 
@@ -92,8 +92,7 @@ class ModelConfigBase(BaseModel):
     model_format: Optional[str] = Field(None)
     error: Optional[ModelError] = Field(None)
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True, protected_namespaces=())
 
 
 class EmptyConfigLoader(ConfigMixin):

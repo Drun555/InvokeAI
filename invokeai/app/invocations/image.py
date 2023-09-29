@@ -104,7 +104,7 @@ class ImagePasteInvocation(BaseInvocation):
 
     base_image: ImageField = InputField(description="The base image")
     image: ImageField = InputField(description="The image to paste")
-    mask: Optional[ImageField] = InputField(
+    mask: ImageField = InputField(
         default=None,
         description="The mask to use when pasting",
     )
@@ -359,7 +359,7 @@ class ImageResizeInvocation(BaseInvocation):
             node_id=self.id,
             session_id=context.graph_execution_state_id,
             is_intermediate=self.is_intermediate,
-            metadata=self.metadata.dict() if self.metadata else None,
+            metadata=self.metadata.model_dump() if self.metadata else None,
             workflow=self.workflow,
         )
 
@@ -505,7 +505,7 @@ class ImageNSFWBlurInvocation(BaseInvocation):
             node_id=self.id,
             session_id=context.graph_execution_state_id,
             is_intermediate=self.is_intermediate,
-            metadata=self.metadata.dict() if self.metadata else None,
+            metadata=self.metadata.model_dump() if self.metadata else None,
             workflow=self.workflow,
         )
 
@@ -544,7 +544,7 @@ class ImageWatermarkInvocation(BaseInvocation):
             node_id=self.id,
             session_id=context.graph_execution_state_id,
             is_intermediate=self.is_intermediate,
-            metadata=self.metadata.dict() if self.metadata else None,
+            metadata=self.metadata.model_dump() if self.metadata else None,
             workflow=self.workflow,
         )
 
@@ -641,7 +641,7 @@ class ColorCorrectInvocation(BaseInvocation):
 
     image: ImageField = InputField(description="The image to color-correct")
     reference: ImageField = InputField(description="Reference image for color-correction")
-    mask: Optional[ImageField] = InputField(default=None, description="Mask to use when applying color-correction")
+    mask: ImageField = InputField(default=None, description="Mask to use when applying color-correction")
     mask_blur_radius: float = InputField(default=8, description="Mask blur radius")
 
     def invoke(self, context: InvocationContext) -> ImageOutput:
@@ -979,8 +979,8 @@ class SaveImageInvocation(BaseInvocation):
     """Saves an image. Unlike an image primitive, this invocation stores a copy of the image."""
 
     image: ImageField = InputField(description=FieldDescriptions.image)
-    board: Optional[BoardField] = InputField(default=None, description=FieldDescriptions.board, input=Input.Direct)
-    metadata: CoreMetadata = InputField(
+    board: BoardField = InputField(default=None, description=FieldDescriptions.board, input=Input.Direct)
+    metadata: Optional[CoreMetadata] = InputField(
         default=None,
         description=FieldDescriptions.core_metadata,
         ui_hidden=True,
@@ -997,7 +997,7 @@ class SaveImageInvocation(BaseInvocation):
             node_id=self.id,
             session_id=context.graph_execution_state_id,
             is_intermediate=self.is_intermediate,
-            metadata=self.metadata.dict() if self.metadata else None,
+            metadata=self.metadata.model_dump() if self.metadata else None,
             workflow=self.workflow,
         )
 

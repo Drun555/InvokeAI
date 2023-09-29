@@ -2,7 +2,7 @@
 
 
 import torch
-from pydantic import validator
+from pydantic import field_validator
 
 from invokeai.app.invocations.latent import LatentsField
 from invokeai.app.util.misc import SEED_MAX, get_random_seed
@@ -105,7 +105,7 @@ class NoiseInvocation(BaseInvocation):
         description="Use CPU for noise generation (for reproducible results across platforms)",
     )
 
-    @validator("seed", pre=True)
+    @field_validator("seed", mode="before")
     def modulo_seed(cls, v):
         """Returns the seed modulo (SEED_MAX + 1) to ensure it is within the valid range."""
         return v % (SEED_MAX + 1)

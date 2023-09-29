@@ -277,7 +277,7 @@ class SqliteSessionQueue(SessionQueueBase):
         if result is None:
             raise SessionQueueItemNotFoundError(f"No queue item with batch id {enqueue_result.batch.batch_id}")
         return EnqueueGraphResult(
-            **enqueue_result.dict(),
+            **enqueue_result.model_dump(),
             queue_item=SessionQueueItemDTO.from_dict(dict(result)),
         )
 

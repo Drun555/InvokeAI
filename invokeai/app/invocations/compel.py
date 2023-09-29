@@ -61,17 +61,19 @@ class CompelInvocation(BaseInvocation):
     @torch.no_grad()
     def invoke(self, context: InvocationContext) -> ConditioningOutput:
         tokenizer_info = context.services.model_manager.get_model(
-            **self.clip.tokenizer.dict(),
+            **self.clip.tokenizer.model_dump(),
             context=context,
         )
         text_encoder_info = context.services.model_manager.get_model(
-            **self.clip.text_encoder.dict(),
+            **self.clip.text_encoder.model_dump(),
             context=context,
         )
 
         def _lora_loader():
             for lora in self.clip.loras:
-                lora_info = context.services.model_manager.get_model(**lora.dict(exclude={"weight"}), context=context)
+                lora_info = context.services.model_manager.get_model(
+                    **lora.model_dump(exclude={"weight"}), context=context
+                )
                 yield (lora_info.context.model, lora.weight)
                 del lora_info
             return
@@ -160,11 +162,11 @@ class SDXLPromptInvocationBase:
         zero_on_empty: bool,
     ):
         tokenizer_info = context.services.model_manager.get_model(
-            **clip_field.tokenizer.dict(),
+            **clip_field.tokenizer.model_dump(),
             context=context,
         )
         text_encoder_info = context.services.model_manager.get_model(
-            **clip_field.text_encoder.dict(),
+            **clip_field.text_encoder.model_dump(),
             context=context,
         )
 
@@ -186,7 +188,9 @@ class SDXLPromptInvocationBase:
 
         def _lora_loader():
             for lora in clip_field.loras:
-                lora_info = context.services.model_manager.get_model(**lora.dict(exclude={"weight"}), context=context)
+                lora_info = context.services.model_manager.get_model(
+                    **lora.model_dump(exclude={"weight"}), context=context
+                )
                 yield (lora_info.context.model, lora.weight)
                 del lora_info
             return

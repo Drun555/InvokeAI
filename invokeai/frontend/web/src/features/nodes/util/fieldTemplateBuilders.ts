@@ -1,4 +1,4 @@
-import { isBoolean, isInteger, isNumber, isString } from 'lodash-es';
+import { isBoolean, isInteger, isNumber, isString, startCase } from 'lodash-es';
 import { OpenAPIV3 } from 'openapi-types';
 import {
   COLLECTION_MAP,
@@ -886,6 +886,7 @@ export const getFieldType = (
       }
     } else if (schemaObject.anyOf) {
       const anyOf = schemaObject.anyOf;
+      console.log(anyOf);
       /**
        * Handle Polymorphic inputs, eg string | string[]. In OpenAPI, this is:
        * - an `anyOf` with two items
@@ -1025,7 +1026,15 @@ export const buildInputFieldTemplate = (
   name: string,
   fieldType: FieldType
 ) => {
-  const { input, ui_hidden, ui_component, ui_type, ui_order } = fieldSchema;
+  const {
+    input,
+    ui_hidden,
+    ui_component,
+    ui_type,
+    ui_order,
+    ui_choice_labels,
+    item_default,
+  } = fieldSchema;
 
   const extra = {
     // TODO: Can we support polymorphic inputs in the UI?
@@ -1035,11 +1044,13 @@ export const buildInputFieldTemplate = (
     ui_type,
     required: nodeSchema.required?.includes(name) ?? false,
     ui_order,
+    ui_choice_labels,
+    item_default,
   };
 
   const baseField = {
     name,
-    title: fieldSchema.title ?? '',
+    title: fieldSchema.title ?? name ? startCase(name) : '',
     description: fieldSchema.description ?? '',
     fieldKind: 'input' as const,
     ...extra,

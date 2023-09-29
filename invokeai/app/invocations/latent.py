@@ -19,7 +19,7 @@ from diffusers.models.attention_processor import (
 )
 from diffusers.schedulers import DPMSolverSDEScheduler
 from diffusers.schedulers import SchedulerMixin as Scheduler
-from pydantic import validator
+from pydantic import field_validator
 from torchvision.transforms.functional import resize as tv_resize
 
 from invokeai.app.invocations.ip_adapter import IPAdapterField
@@ -103,7 +103,7 @@ class CreateDenoiseMaskInvocation(BaseInvocation):
     """Creates mask for denoising model run."""
 
     vae: VaeField = InputField(description=FieldDescriptions.vae, input=Input.Connection, ui_order=0)
-    image: Optional[ImageField] = InputField(default=None, description="Image which will be masked", ui_order=1)
+    image: ImageField = InputField(default=None, description="Image which will be masked", ui_order=1)
     mask: ImageField = InputField(description="The mask to use when pasting", ui_order=2)
     tiled: bool = InputField(default=False, description=FieldDescriptions.tiled, ui_order=3)
     fp32: bool = InputField(default=DEFAULT_PRECISION == "float32", description=FieldDescriptions.fp32, ui_order=4)
@@ -134,7 +134,7 @@ class CreateDenoiseMaskInvocation(BaseInvocation):
 
         if image is not None:
             vae_info = context.services.model_manager.get_model(
-                **self.vae.vae.dict(),
+                **self.vae.vae.model_dump(),
                 context=context,
             )
 
@@ -167,7 +167,7 @@ def get_scheduler(
 ) -> Scheduler:
     scheduler_class, scheduler_extra_config = SCHEDULER_MAP.get(scheduler_name, SCHEDULER_MAP["ddim"])
     orig_scheduler_info = context.services.model_manager.get_model(
-        **scheduler_info.dict(),
+        **scheduler_info.model_dump(),
         context=context,
     )
     with orig_scheduler_info as orig_scheduler:
@@ -209,7 +209,9 @@ class DenoiseLatentsInvocation(BaseInvocation):
     negative_conditioning: ConditioningField = InputField(
         description=FieldDescriptions.negative_cond, input=Input.Connection, ui_order=1
     )
-    noise: Optional[LatentsField] = InputField(description=FieldDescriptions.noise, input=Input.Connection, ui_order=3)
+    noise: LatentsField = InputField(
+        default=None, description=FieldDescriptions.noise, input=Input.Connection, ui_order=3
+    )
     steps: int = InputField(default=10, gt=0, description=FieldDescriptions.steps)
     cfg_scale: Union[float, List[float]] = InputField(
         default=7.5, ge=1, description=FieldDescriptions.cfg_scale, title="CFG Scale"
@@ -228,7 +230,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
     ip_adapter: Optional[Union[IPAdapterField, list[IPAdapterField]]] = InputField(
         description=FieldDescriptions.ip_adapter, title="IP-Adapter", default=None, input=Input.Connection, ui_order=6
     )
-    t2i_adapter: Union[T2IAdapterField, list[T2IAdapterField]] = InputField(
+    t2i_adapter: Optional[Union[T2IAdapterField, list[T2IAdapterField]]] = InputField(
         description=FieldDescriptions.t2i_adapter, title="T2I-Adapter", default=None, input=Input.Connection, ui_order=7
     )
     latents: Optional[LatentsField] = InputField(description=FieldDescriptions.latents, input=Input.Connection)
@@ -236,7 +238,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
         default=None, description=FieldDescriptions.mask, input=Input.Connection, ui_order=8
     )
 
-    @validator("cfg_scale")
+    @field_validator("cfg_scale")
     def ge_one(cls, v):
         """validate that all cfg_scale values are >= 1"""
         if isinstance(v, list):
@@ -259,7 +261,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
         stable_diffusion_step_callback(
             context=context,
             intermediate_state=intermediate_state,
-            node=self.dict(),
+            node=self.model_dump(),
             source_node_id=source_node_id,
             base_model=base_model,
         )
@@ -641,7 +643,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
             def _lora_loader():
                 for lora in self.unet.loras:
                     lora_info = context.services.model_manager.get_model(
-                        **lora.dict(exclude={"weight"}),
+                        **lora.model_dump(exclude={"weight"}),
                         context=context,
                     )
                     yield (lora_info.context.model, lora.weight)
@@ -649,7 +651,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
                 return
 
             unet_info = context.services.model_manager.get_model(
-                **self.unet.unet.dict(),
+                **self.unet.unet.model_dump(),
                 context=context,
             )
             with (
@@ -743,7 +745,7 @@ class LatentsToImageInvocation(BaseInvocation):
     )
     tiled: bool = InputField(default=False, description=FieldDescriptions.tiled)
     fp32: bool = InputField(default=DEFAULT_PRECISION == "float32", description=FieldDescriptions.fp32)
-    metadata: CoreMetadata = InputField(
+    metadata: Optional[CoreMetadata] = InputField(
         default=None,
         description=FieldDescriptions.core_metadata,
         ui_hidden=True,
@@ -754,7 +756,7 @@ class LatentsToImageInvocation(BaseInvocation):
         latents = context.services.latents.get(self.latents.latents_name)
 
         vae_info = context.services.model_manager.get_model(
-            **self.vae.vae.dict(),
+            **self.vae.vae.model_dump(),
             context=context,
         )
 
@@ -816,7 +818,7 @@ class LatentsToImageInvocation(BaseInvocation):
             node_id=self.id,
             session_id=context.graph_execution_state_id,
             is_intermediate=self.is_intermediate,
-            metadata=self.metadata.dict() if self.metadata else None,
+            metadata=self.metadata.model_dump() if self.metadata else None,
             workflow=self.workflow,
         )
 
@@ -979,7 +981,7 @@ class ImageToLatentsInvocation(BaseInvocation):
         image = context.services.images.get_pil_image(self.image.image_name)
 
         vae_info = context.services.model_manager.get_model(
-            **self.vae.vae.dict(),
+            **self.vae.vae.model_dump(),
             context=context,
         )
 
