@@ -31,7 +31,7 @@ if True:  # hack to make flake8 happy with imports coming after setting up the c
 
     from ..backend.util.logging import InvokeAILogger
     from .api.dependencies import ApiDependencies
-    from .api.routers import app_info, board_images, boards, images, models, session_queue, sessions, utilities
+    from .api.routers import app_info, board_images, boards, images, models, session_queue, utilities
     from .api.sockets import SocketIO
     from .invocations.baseinvocation import BaseInvocation, UIConfigBase, _InputField, _OutputField
 
@@ -63,18 +63,18 @@ app.add_middleware(
 
 socket_io = SocketIO(app)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=app_config.allow_origins,
+    allow_credentials=app_config.allow_credentials,
+    allow_methods=app_config.allow_methods,
+    allow_headers=app_config.allow_headers,
+)
+
 
 # Add startup event to load dependencies
 @app.on_event("startup")
 async def startup_event():
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=app_config.allow_origins,
-        allow_credentials=app_config.allow_credentials,
-        allow_methods=app_config.allow_methods,
-        allow_headers=app_config.allow_headers,
-    )
-
     ApiDependencies.initialize(config=app_config, event_handler_id=event_handler_id, logger=logger)
 
 
@@ -90,7 +90,7 @@ async def shutdown_event():
 #     invocation.invocation_router,
 #     prefix = '/api')
 
-app.include_router(sessions.session_router, prefix="/api")
+# app.include_router(sessions.session_router, prefix="/api")
 
 app.include_router(utilities.utilities_router, prefix="/api")
 
