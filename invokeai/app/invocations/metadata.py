@@ -47,7 +47,7 @@ class CoreMetadata(BaseModelExcludeNull):
     generation_mode: str = Field(
         description="The generation mode that output this image",
     )
-    created_by: Optional[str] = Field(description="The name of the creator of the image")
+    created_by: Optional[str] = Field(default=None, description="The name of the creator of the image")
     positive_prompt: str = Field(description="The positive prompt parameter")
     negative_prompt: str = Field(description="The negative prompt parameter")
     width: int = Field(description="The width parameter")
@@ -143,55 +143,55 @@ class MetadataAccumulatorInvocation(BaseInvocation):
     ipAdapters: list[IPAdapterMetadataField] = InputField(description="The IP Adapters used for inference")
     t2iAdapters: list[T2IAdapterField] = Field(description="The IP Adapters used for inference")
     loras: list[LoRAMetadataField] = InputField(description="The LoRAs used for inference")
-    strength: float = InputField(
+    strength: Optional[float] = InputField(
         default=None,
         description="The strength used for latents-to-latents",
     )
-    init_image: str = InputField(
+    init_image: Optional[str] = InputField(
         default=None,
         description="The name of the initial image",
     )
-    vae: VAEModelField = InputField(
+    vae: Optional[VAEModelField] = InputField(
         default=None,
         description="The VAE used for decoding, if the main model's default was not used",
     )
 
     # SDXL
-    positive_style_prompt: str = InputField(
+    positive_style_prompt: Optional[str] = InputField(
         default=None,
         description="The positive style prompt parameter",
     )
-    negative_style_prompt: str = InputField(
+    negative_style_prompt: Optional[str] = InputField(
         default=None,
         description="The negative style prompt parameter",
     )
 
     # SDXL Refiner
-    refiner_model: MainModelField = InputField(
+    refiner_model: Optional[MainModelField] = InputField(
         default=None,
         description="The SDXL Refiner model used",
     )
-    refiner_cfg_scale: float = InputField(
+    refiner_cfg_scale: Optional[float] = InputField(
         default=None,
         description="The classifier-free guidance scale parameter used for the refiner",
     )
-    refiner_steps: int = InputField(
+    refiner_steps: Optional[int] = InputField(
         default=None,
         description="The number of steps used for the refiner",
     )
-    refiner_scheduler: str = InputField(
+    refiner_scheduler: Optional[str] = InputField(
         default=None,
         description="The scheduler used for the refiner",
     )
-    refiner_positive_aesthetic_score: float = InputField(
+    refiner_positive_aesthetic_score: Optional[float] = InputField(
         default=None,
         description="The aesthetic score used for the refiner",
     )
-    refiner_negative_aesthetic_score: float = InputField(
+    refiner_negative_aesthetic_score: Optional[float] = InputField(
         default=None,
         description="The aesthetic score used for the refiner",
     )
-    refiner_start: float = InputField(
+    refiner_start: Optional[float] = InputField(
         default=None,
         description="The start value used for refiner denoising",
     )
