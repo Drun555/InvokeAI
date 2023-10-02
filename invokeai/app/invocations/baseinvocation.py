@@ -782,19 +782,3 @@ def invocation_output(
 
 
 GenericBaseModel = TypeVar("GenericBaseModel", bound=BaseModel)
-
-
-# def invocation_field_type(
-#     title: Optional[str] = None,
-# ) -> Callable[[Type[GenericBaseModel]], Type[GenericBaseModel]]:
-#     def wrapper(cls: Type[GenericBaseModel]) -> Type[GenericBaseModel]:
-#         if cls.model_config is None:
-#             cls.model_config = ConfigDict()
-#         if "json_schema_extra" not in cls.model_config:
-#             cls.model_config["json_schema_extra"] = dict()
-#         # Cannot update `json_schema_extra` if it's a function...
-#         if title is not None and isinstance(cls.model_config["json_schema_extra"], dict):
-#             cls.model_config["json_schema_extra"]["title"] = title
-#         return cls
-
-#     return wrapper

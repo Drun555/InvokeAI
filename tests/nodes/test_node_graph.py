@@ -499,7 +499,6 @@ def test_graph_expands_subgraph():
     assert set(dg.edges) == set([("1.1", "1.2"), ("1.2", "2")])
 
 
-# @pytest.mark.xfail(reason="Subgraphs disabled for pydantic v2 upgrade")
 def test_graph_subgraph_t2i():
     g = Graph()
     n1 = GraphInvocation(id="1")

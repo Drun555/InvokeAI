@@ -85,11 +85,6 @@ async def shutdown_event():
 
 
 # Include all routers
-# TODO: REMOVE
-# app.include_router(
-#     invocation.invocation_router,
-#     prefix = '/api')
-
 # app.include_router(sessions.session_router, prefix="/api")
 
 app.include_router(utilities.utilities_router, prefix="/api")
@@ -110,8 +105,8 @@ app.include_router(session_queue.session_queue_router, prefix="/api")
 # Build a custom OpenAPI to include all outputs
 # TODO: can outputs be included on metadata of invocation schemas somehow?
 def custom_openapi():
-    # if app.openapi_schema:
-    #     return app.openapi_schema
+    if app.openapi_schema:
+        return app.openapi_schema
     openapi_schema = get_openapi(
         title=app.title,
         description="An API for invoking AI image operations",

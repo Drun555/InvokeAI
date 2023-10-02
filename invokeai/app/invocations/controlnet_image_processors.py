@@ -126,9 +126,7 @@ class ControlNetInvocation(BaseInvocation):
         )
 
 
-# @invocation(
-#     "image_processor", title="Base Image Processor", tags=["controlnet"], category="controlnet", version="1.0.0"
-# )
+# This invocation exists for other invocations to subclass it - do not register with @invocation!
 class ImageProcessorInvocation(BaseInvocation):
     """Base class for invocations that preprocess images for ControlNet"""
 
