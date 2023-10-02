@@ -1862,6 +1862,161 @@ export type components = {
       type: 'control_output';
     };
     /**
+     * Metadata Accumulator
+     * @description Outputs a Core Metadata Object
+     */
+    CoreMetadataInvocation: {
+      /**
+       * Id
+       * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
+       */
+      id: string;
+      /**
+       * Is Intermediate
+       * @description Whether or not this is an intermediate invocation.
+       * @default false
+       */
+      is_intermediate?: boolean;
+      /**
+       * Use Cache
+       * @description Whether or not to use the cache
+       * @default true
+       */
+      use_cache?: boolean;
+      /**
+       * Generation Mode
+       * @description The generation mode that output this image
+       * @enum {string}
+       */
+      generation_mode?: 'txt2img' | 'img2img' | 'inpaint' | 'outpaint';
+      /**
+       * Positive Prompt
+       * @description The positive prompt parameter
+       */
+      positive_prompt?: string;
+      /**
+       * Negative Prompt
+       * @description The negative prompt parameter
+       */
+      negative_prompt?: string;
+      /**
+       * Width
+       * @description The width parameter
+       */
+      width?: number;
+      /**
+       * Height
+       * @description The height parameter
+       */
+      height?: number;
+      /**
+       * Seed
+       * @description The seed used for noise generation
+       */
+      seed?: number;
+      /**
+       * Rand Device
+       * @description The device used for random number generation
+       */
+      rand_device?: string;
+      /**
+       * Cfg Scale
+       * @description The classifier-free guidance scale parameter
+       */
+      cfg_scale?: number;
+      /**
+       * Steps
+       * @description The number of steps used for inference
+       */
+      steps?: number;
+      /**
+       * Scheduler
+       * @description The scheduler used for inference
+       */
+      scheduler?: string;
+      /**
+       * Clip Skip
+       * @description The number of skipped CLIP layers
+       */
+      clip_skip?: number;
+      /**
+       * Model
+       * @description The main model used for inference
+       */
+      model?: components['schemas']['MainModelField'];
+      /**
+       * Controlnets
+       * @description The ControlNets used for inference
+       */
+      controlnets?: components['schemas']['ControlField'][];
+      /**
+       * Strength
+       * @description The strength used for latents-to-latents
+       */
+      strength?: number;
+      /**
+       * Init Image
+       * @description The name of the initial image
+       */
+      init_image?: string;
+      /**
+       * Vae
+       * @description The VAE used for decoding, if the main model's default was not used
+       */
+      vae?: components['schemas']['VAEModelField'];
+      /**
+       * Positive Style Prompt
+       * @description The positive style prompt parameter
+       */
+      positive_style_prompt?: string;
+      /**
+       * Negative Style Prompt
+       * @description The negative style prompt parameter
+       */
+      negative_style_prompt?: string;
+      /**
+       * Refiner Model
+       * @description The SDXL Refiner model used
+       */
+      refiner_model?: components['schemas']['MainModelField'];
+      /**
+       * Refiner Cfg Scale
+       * @description The classifier-free guidance scale parameter used for the refiner
+       */
+      refiner_cfg_scale?: number;
+      /**
+       * Refiner Steps
+       * @description The number of steps used for the refiner
+       */
+      refiner_steps?: number;
+      /**
+       * Refiner Scheduler
+       * @description The scheduler used for the refiner
+       */
+      refiner_scheduler?: string;
+      /**
+       * Refiner Positive Aesthetic Score
+       * @description The aesthetic score used for the refiner
+       */
+      refiner_positive_aesthetic_score?: number;
+      /**
+       * Refiner Negative Aesthetic Score
+       * @description The aesthetic score used for the refiner
+       */
+      refiner_negative_aesthetic_score?: number;
+      /**
+       * Refiner Start
+       * @description The start value used for refiner denoising
+       */
+      refiner_start?: number;
+      /**
+       * Type
+       * @default metadata_accumulator
+       * @enum {string}
+       */
+      type: 'metadata_accumulator';
+    };
+    /**
      * Create Denoise Mask
      * @description Creates mask for denoising model run.
      */
@@ -2342,6 +2497,296 @@ export type components = {
       queue_item: components['schemas']['SessionQueueItemDTO'];
     };
     /**
+     * FaceIdentifier
+     * @description Outputs an image with detected face IDs printed on each face. For use with other FaceTools.
+     */
+    FaceIdentifierInvocation: {
+      /**
+       * Metadata
+       * @description Optional metadata to be saved with the image
+       */
+      metadata?: components['schemas']['MetadataField'];
+      /**
+       * Workflow
+       * @description Optional workflow to be saved with the image
+       */
+      workflow?: components['schemas']['WorkflowField'];
+      /**
+       * Id
+       * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
+       */
+      id: string;
+      /**
+       * Is Intermediate
+       * @description Whether or not this is an intermediate invocation.
+       * @default false
+       */
+      is_intermediate?: boolean;
+      /**
+       * Use Cache
+       * @description Whether or not to use the cache
+       * @default true
+       */
+      use_cache?: boolean;
+      /**
+       * Image
+       * @description Image to face detect
+       */
+      image?: components['schemas']['ImageField'];
+      /**
+       * Minimum Confidence
+       * @description Minimum confidence for face detection (lower if detection is failing)
+       * @default 0.5
+       */
+      minimum_confidence?: number;
+      /**
+       * Chunk
+       * @description Whether to bypass full image face detection and default to image chunking. Chunking will occur if no faces are found in the full image.
+       * @default false
+       */
+      chunk?: boolean;
+      /**
+       * Type
+       * @default face_identifier
+       * @enum {string}
+       */
+      type: 'face_identifier';
+    };
+    /**
+     * FaceMask
+     * @description Face mask creation using mediapipe face detection
+     */
+    FaceMaskInvocation: {
+      /**
+       * Metadata
+       * @description Optional metadata to be saved with the image
+       */
+      metadata?: components['schemas']['MetadataField'];
+      /**
+       * Workflow
+       * @description Optional workflow to be saved with the image
+       */
+      workflow?: components['schemas']['WorkflowField'];
+      /**
+       * Id
+       * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
+       */
+      id: string;
+      /**
+       * Is Intermediate
+       * @description Whether or not this is an intermediate invocation.
+       * @default false
+       */
+      is_intermediate?: boolean;
+      /**
+       * Use Cache
+       * @description Whether or not to use the cache
+       * @default true
+       */
+      use_cache?: boolean;
+      /**
+       * Image
+       * @description Image to face detect
+       */
+      image?: components['schemas']['ImageField'];
+      /**
+       * Face Ids
+       * @description Comma-separated list of face ids to mask eg '0,2,7'. Numbered from 0. Leave empty to mask all. Find face IDs with FaceIdentifier node.
+       * @default
+       */
+      face_ids?: string;
+      /**
+       * Minimum Confidence
+       * @description Minimum confidence for face detection (lower if detection is failing)
+       * @default 0.5
+       */
+      minimum_confidence?: number;
+      /**
+       * X Offset
+       * @description Offset for the X-axis of the face mask
+       * @default 0
+       */
+      x_offset?: number;
+      /**
+       * Y Offset
+       * @description Offset for the Y-axis of the face mask
+       * @default 0
+       */
+      y_offset?: number;
+      /**
+       * Chunk
+       * @description Whether to bypass full image face detection and default to image chunking. Chunking will occur if no faces are found in the full image.
+       * @default false
+       */
+      chunk?: boolean;
+      /**
+       * Invert Mask
+       * @description Toggle to invert the mask
+       * @default false
+       */
+      invert_mask?: boolean;
+      /**
+       * Type
+       * @default face_mask_detection
+       * @enum {string}
+       */
+      type: 'face_mask_detection';
+    };
+    /**
+     * FaceMaskOutput
+     * @description Base class for FaceMask output
+     */
+    FaceMaskOutput: {
+      /**
+       * Image
+       * @description The output image
+       */
+      image: components['schemas']['ImageField'];
+      /**
+       * Width
+       * @description The width of the image in pixels
+       */
+      width: number;
+      /**
+       * Height
+       * @description The height of the image in pixels
+       */
+      height: number;
+      /**
+       * Type
+       * @default face_mask_output
+       * @enum {string}
+       */
+      type: 'face_mask_output';
+      /**
+       * Mask
+       * @description The output mask
+       */
+      mask: components['schemas']['ImageField'];
+    };
+    /**
+     * FaceOff
+     * @description Bound, extract, and mask a face from an image using MediaPipe detection
+     */
+    FaceOffInvocation: {
+      /**
+       * Metadata
+       * @description Optional metadata to be saved with the image
+       */
+      metadata?: components['schemas']['MetadataField'];
+      /**
+       * Workflow
+       * @description Optional workflow to be saved with the image
+       */
+      workflow?: components['schemas']['WorkflowField'];
+      /**
+       * Id
+       * @description The id of this instance of an invocation. Must be unique among all instances of invocations.
+       */
+      id: string;
+      /**
+       * Is Intermediate
+       * @description Whether or not this is an intermediate invocation.
+       * @default false
+       */
+      is_intermediate?: boolean;
+      /**
+       * Use Cache
+       * @description Whether or not to use the cache
+       * @default true
+       */
+      use_cache?: boolean;
+      /**
+       * Image
+       * @description Image for face detection
+       */
+      image?: components['schemas']['ImageField'];
+      /**
+       * Face Id
+       * @description The face ID to process, numbered from 0. Multiple faces not supported. Find a face's ID with FaceIdentifier node.
+       * @default 0
+       */
+      face_id?: number;
+      /**
+       * Minimum Confidence
+       * @description Minimum confidence for face detection (lower if detection is failing)
+       * @default 0.5
+       */
+      minimum_confidence?: number;
+      /**
+       * X Offset
+       * @description X-axis offset of the mask
+       * @default 0
+       */
+      x_offset?: number;
+      /**
+       * Y Offset
+       * @description Y-axis offset of the mask
+       * @default 0
+       */
+      y_offset?: number;
+      /**
+       * Padding
+       * @description All-axis padding around the mask in pixels
+       * @default 0
+       */
+      padding?: number;
+      /**
+       * Chunk
+       * @description Whether to bypass full image face detection and default to image chunking. Chunking will occur if no faces are found in the full image.
+       * @default false
+       */
+      chunk?: boolean;
+      /**
+       * Type
+       * @default face_off
+       * @enum {string}
+       */
+      type: 'face_off';
+    };
+    /**
+     * FaceOffOutput
+     * @description Base class for FaceOff Output
+     */
+    FaceOffOutput: {
+      /**
+       * Image
+       * @description The output image
+       */
+      image: components['schemas']['ImageField'];
+      /**
+       * Width
+       * @description The width of the image in pixels
+       */
+      width: number;
+      /**
+       * Height
+       * @description The height of the image in pixels
+       */
+      height: number;
+      /**
+       * Type
+       * @default face_off_output
+       * @enum {string}
+       */
+      type: 'face_off_output';
+      /**
+       * Mask
+       * @description The output mask
+       */
+      mask: components['schemas']['ImageField'];
+      /**
+       * X
+       * @description The x coordinate of the bounding box's left side
+       */
+      x: number;
+      /**
+       * Y
+       * @description The y coordinate of the bounding box's top side
+       */
+      y: number;
+    };
+    /**
      * Float Collection Primitive
      * @description A collection of float primitive values
      */
@@ -2624,9 +3069,9 @@ export type components = {
           | components['schemas']['ColorInvocation']
           | components['schemas']['ConditioningInvocation']
           | components['schemas']['ConditioningCollectionInvocation']
-          | components['schemas']['MetadataItemInvocation']
-          | components['schemas']['MetadataInvocation']
-          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['FaceOffInvocation']
+          | components['schemas']['FaceMaskInvocation']
+          | components['schemas']['FaceIdentifierInvocation']
           | components['schemas']['ControlNetInvocation']
           | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['MainModelLoaderInvocation']
@@ -2685,6 +3130,7 @@ export type components = {
           | components['schemas']['MultiplyInvocation']
           | components['schemas']['DivideInvocation']
           | components['schemas']['RandomIntInvocation']
+          | components['schemas']['RandomFloatInvocation']
           | components['schemas']['FloatToIntegerInvocation']
           | components['schemas']['RoundInvocation']
           | components['schemas']['IntegerMathInvocation']
@@ -2694,6 +3140,10 @@ export type components = {
           | components['schemas']['RangeOfSizeInvocation']
           | components['schemas']['RandomRangeInvocation']
           | components['schemas']['ESRGANInvocation']
+          | components['schemas']['MetadataItemInvocation']
+          | components['schemas']['MetadataInvocation']
+          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['CoreMetadataInvocation']
           | components['schemas']['StringSplitNegInvocation']
           | components['schemas']['StringSplitInvocation']
           | components['schemas']['StringJoinInvocation']
@@ -2777,8 +3227,6 @@ export type components = {
           | components['schemas']['ColorCollectionOutput']
           | components['schemas']['ConditioningOutput']
           | components['schemas']['ConditioningCollectionOutput']
-          | components['schemas']['MetadataItemOutput']
-          | components['schemas']['MetadataOutput']
           | components['schemas']['ControlOutput']
           | components['schemas']['ModelLoaderOutput']
           | components['schemas']['LoraLoaderOutput']
@@ -2792,11 +3240,15 @@ export type components = {
           | components['schemas']['SchedulerOutput']
           | components['schemas']['ONNXModelLoaderOutput']
           | components['schemas']['NoiseOutput']
+          | components['schemas']['MetadataItemOutput']
+          | components['schemas']['MetadataOutput']
           | components['schemas']['StringPosNegOutput']
           | components['schemas']['String2Output']
           | components['schemas']['GraphInvocationOutput']
           | components['schemas']['IterateInvocationOutput']
-          | components['schemas']['CollectInvocationOutput'];
+          | components['schemas']['CollectInvocationOutput']
+          | components['schemas']['FaceMaskOutput']
+          | components['schemas']['FaceOffOutput'];
       };
       /**
        * Errors
@@ -2934,7 +3386,7 @@ export type components = {
        * Image Encoder Model
        * @description The name of the CLIP image encoder model.
        */
-      image_encoder_model?: components['schemas']['CLIPVisionModelField'];
+      image_encoder_model: components['schemas']['CLIPVisionModelField'];
       /**
        * Weight
        * @description The weight given to the ControlNet
@@ -6612,11 +7064,6 @@ export type components = {
        */
       is_intermediate?: boolean | null;
       /**
-       * Workflow
-       * @description The workflow to save with the image
-       */
-      workflow?: string | null;
-      /**
        * Use Cache
        * @description Whether or not to use the cache
        * @default true
@@ -8937,17 +9384,11 @@ export type components = {
       ui_order: number | null;
     };
     /**
-     * ControlNetModelFormat
+     * StableDiffusionXLModelFormat
      * @description An enumeration.
      * @enum {string}
      */
-    ControlNetModelFormat: 'checkpoint' | 'diffusers';
-    /**
-     * IPAdapterModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    IPAdapterModelFormat: 'invokeai';
+    StableDiffusionXLModelFormat: 'checkpoint' | 'diffusers';
     /**
      * StableDiffusion1ModelFormat
      * @description An enumeration.
@@ -8961,23 +9402,29 @@ export type components = {
      */
     StableDiffusionOnnxModelFormat: 'olive' | 'onnx';
     /**
+     * ControlNetModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    ControlNetModelFormat: 'checkpoint' | 'diffusers';
+    /**
      * StableDiffusion2ModelFormat
      * @description An enumeration.
      * @enum {string}
      */
     StableDiffusion2ModelFormat: 'checkpoint' | 'diffusers';
     /**
+     * IPAdapterModelFormat
+     * @description An enumeration.
+     * @enum {string}
+     */
+    IPAdapterModelFormat: 'invokeai';
+    /**
      * CLIPVisionModelFormat
      * @description An enumeration.
      * @enum {string}
      */
     CLIPVisionModelFormat: 'diffusers';
-    /**
-     * StableDiffusionXLModelFormat
-     * @description An enumeration.
-     * @enum {string}
-     */
-    StableDiffusionXLModelFormat: 'checkpoint' | 'diffusers';
   };
   responses: never;
   parameters: never;
@@ -9119,9 +9566,9 @@ export type operations = {
           | components['schemas']['ColorInvocation']
           | components['schemas']['ConditioningInvocation']
           | components['schemas']['ConditioningCollectionInvocation']
-          | components['schemas']['MetadataItemInvocation']
-          | components['schemas']['MetadataInvocation']
-          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['FaceOffInvocation']
+          | components['schemas']['FaceMaskInvocation']
+          | components['schemas']['FaceIdentifierInvocation']
           | components['schemas']['ControlNetInvocation']
           | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['MainModelLoaderInvocation']
@@ -9180,6 +9627,7 @@ export type operations = {
           | components['schemas']['MultiplyInvocation']
           | components['schemas']['DivideInvocation']
           | components['schemas']['RandomIntInvocation']
+          | components['schemas']['RandomFloatInvocation']
           | components['schemas']['FloatToIntegerInvocation']
           | components['schemas']['RoundInvocation']
           | components['schemas']['IntegerMathInvocation']
@@ -9189,6 +9637,10 @@ export type operations = {
           | components['schemas']['RangeOfSizeInvocation']
           | components['schemas']['RandomRangeInvocation']
           | components['schemas']['ESRGANInvocation']
+          | components['schemas']['MetadataItemInvocation']
+          | components['schemas']['MetadataInvocation']
+          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['CoreMetadataInvocation']
           | components['schemas']['StringSplitNegInvocation']
           | components['schemas']['StringSplitInvocation']
           | components['schemas']['StringJoinInvocation']
@@ -9275,9 +9727,9 @@ export type operations = {
           | components['schemas']['ColorInvocation']
           | components['schemas']['ConditioningInvocation']
           | components['schemas']['ConditioningCollectionInvocation']
-          | components['schemas']['MetadataItemInvocation']
-          | components['schemas']['MetadataInvocation']
-          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['FaceOffInvocation']
+          | components['schemas']['FaceMaskInvocation']
+          | components['schemas']['FaceIdentifierInvocation']
           | components['schemas']['ControlNetInvocation']
           | components['schemas']['ImageProcessorInvocation']
           | components['schemas']['MainModelLoaderInvocation']
@@ -9336,6 +9788,7 @@ export type operations = {
           | components['schemas']['MultiplyInvocation']
           | components['schemas']['DivideInvocation']
           | components['schemas']['RandomIntInvocation']
+          | components['schemas']['RandomFloatInvocation']
           | components['schemas']['FloatToIntegerInvocation']
           | components['schemas']['RoundInvocation']
           | components['schemas']['IntegerMathInvocation']
@@ -9345,6 +9798,10 @@ export type operations = {
           | components['schemas']['RangeOfSizeInvocation']
           | components['schemas']['RandomRangeInvocation']
           | components['schemas']['ESRGANInvocation']
+          | components['schemas']['MetadataItemInvocation']
+          | components['schemas']['MetadataInvocation']
+          | components['schemas']['MergeMetadataInvocation']
+          | components['schemas']['CoreMetadataInvocation']
           | components['schemas']['StringSplitNegInvocation']
           | components['schemas']['StringSplitInvocation']
           | components['schemas']['StringJoinInvocation']

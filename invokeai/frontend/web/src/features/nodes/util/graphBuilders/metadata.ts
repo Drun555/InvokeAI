@@ -34,7 +34,7 @@ export const addMainMetadataNodeToGraph = (
   graph.edges.push({
     source: {
       node_id: METADATA,
-      field: 'metadata_dict',
+      field: 'metadata',
     },
     destination: {
       node_id: METADATA_COLLECT,
@@ -56,7 +56,7 @@ export const addMainMetadataNodeToGraph = (
   graph.edges.push({
     source: {
       node_id: MERGE_METADATA,
-      field: 'metadata_dict',
+      field: 'metadata',
     },
     destination: {
       node_id: SAVE_IMAGE,
@@ -141,7 +141,7 @@ export const addBatchMetadataNodeToGraph = (
   graph.edges.push({
     source: {
       node_id: BATCH_METADATA,
-      field: 'metadata_dict',
+      field: 'metadata',
     },
     destination: {
       node_id: METADATA_COLLECT,
