@@ -28,6 +28,9 @@ ConvertModelResponse = Union[tuple(OPENAPI_MODEL_CONFIGS)]
 MergeModelResponse = Union[tuple(OPENAPI_MODEL_CONFIGS)]
 ImportModelAttributes = Union[tuple(OPENAPI_MODEL_CONFIGS)]
 
+update_models_response_adapter = TypeAdapter(UpdateModelResponse)
+convert_models_response_adapter = TypeAdapter(ConvertModelResponse)
+
 
 class ModelsList(BaseModel):
     models: list[Union[tuple(OPENAPI_MODEL_CONFIGS)]]
@@ -122,7 +125,7 @@ async def update_model(
             base_model=base_model,
             model_type=model_type,
         )
-        model_response = TypeAdapter(UpdateModelResponse).validate_python(model_raw)
+        model_response = update_model_response_adapter.validate_python(model_raw)
     except ModelNotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e))
     except ValueError as e:
@@ -283,7 +286,7 @@ async def convert_model(
         model_raw = ApiDependencies.invoker.services.model_manager.list_model(
             model_name, base_model=base_model, model_type=model_type
         )
-        response = TypeAdapter(ConvertModelResponse).validate_python(model_raw)
+        response = convert_models_response_adapter.validate_python(model_raw)
     except ModelNotFoundException as e:
         raise HTTPException(status_code=404, detail=f"Model '{model_name}' not found: {str(e)}")
     except ValueError as e:
@@ -394,7 +397,7 @@ async def merge_models(
             base_model=base_model,
             model_type=ModelType.Main,
         )
-        response = TypeAdapter(ConvertModelResponse).validate_python(model_raw)
+        response = convert_models_response_adapter.validate_python(model_raw)
     except ModelNotFoundException:
         raise HTTPException(status_code=404, detail=f"One or more of the models '{body.model_names}' not found")
     except ValueError as e:
