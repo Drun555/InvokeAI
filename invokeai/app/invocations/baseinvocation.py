@@ -727,6 +727,7 @@ def invocation(
             cls.__qualname__,
             __base__=cls,
             __module__=cls.__module__,
+            __doc__=cls.__doc__,
             type=(invocation_type_annotation, invocation_type_field),
         )
         cls = invocation_with_type
@@ -771,6 +772,7 @@ def invocation_output(
             cls.__qualname__,
             __base__=cls,
             __module__=cls.__module__,
+            __doc__=cls.__doc__,
             type=(output_type_annotation, output_type_field),
         )
 
