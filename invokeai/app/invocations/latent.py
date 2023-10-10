@@ -209,7 +209,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
     negative_conditioning: ConditioningField = InputField(
         description=FieldDescriptions.negative_cond, input=Input.Connection, ui_order=1
     )
-    noise: Optional[LatentsField] = InputField(
+    noise: LatentsField = InputField(
         default=None, description=FieldDescriptions.noise, input=Input.Connection, ui_order=3
     )
     steps: int = InputField(default=10, gt=0, description=FieldDescriptions.steps)
@@ -222,21 +222,19 @@ class DenoiseLatentsInvocation(BaseInvocation):
         default="euler", description=FieldDescriptions.scheduler, ui_type=UIType.Scheduler
     )
     unet: UNetField = InputField(description=FieldDescriptions.unet, input=Input.Connection, title="UNet", ui_order=2)
-    control: Optional[Union[ControlField, list[ControlField]]] = InputField(
+    control: Union[ControlField, list[ControlField]] = InputField(
         default=None,
         input=Input.Connection,
         ui_order=5,
     )
-    ip_adapter: Optional[Union[IPAdapterField, list[IPAdapterField]]] = InputField(
+    ip_adapter: Union[IPAdapterField, list[IPAdapterField]] = InputField(
         description=FieldDescriptions.ip_adapter, title="IP-Adapter", default=None, input=Input.Connection, ui_order=6
     )
-    t2i_adapter: Optional[Union[T2IAdapterField, list[T2IAdapterField]]] = InputField(
+    t2i_adapter: Union[T2IAdapterField, list[T2IAdapterField]] = InputField(
         description=FieldDescriptions.t2i_adapter, title="T2I-Adapter", default=None, input=Input.Connection, ui_order=7
     )
-    latents: Optional[LatentsField] = InputField(
-        default=None, description=FieldDescriptions.latents, input=Input.Connection
-    )
-    denoise_mask: Optional[DenoiseMaskField] = InputField(
+    latents: LatentsField = InputField(default=None, description=FieldDescriptions.latents, input=Input.Connection)
+    denoise_mask: DenoiseMaskField = InputField(
         default=None, description=FieldDescriptions.mask, input=Input.Connection, ui_order=8
     )
 
