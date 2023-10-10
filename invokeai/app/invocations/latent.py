@@ -209,7 +209,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
     negative_conditioning: ConditioningField = InputField(
         description=FieldDescriptions.negative_cond, input=Input.Connection, ui_order=1
     )
-    noise: LatentsField = InputField(
+    noise: Optional[LatentsField] = InputField(
         default=None, description=FieldDescriptions.noise, input=Input.Connection, ui_order=3
     )
     steps: int = InputField(default=10, gt=0, description=FieldDescriptions.steps)
@@ -222,7 +222,7 @@ class DenoiseLatentsInvocation(BaseInvocation):
         default="euler", description=FieldDescriptions.scheduler, ui_type=UIType.Scheduler
     )
     unet: UNetField = InputField(description=FieldDescriptions.unet, input=Input.Connection, title="UNet", ui_order=2)
-    control: Union[ControlField, list[ControlField]] = InputField(
+    control: Optional[Union[ControlField, list[ControlField]]] = InputField(
         default=None,
         input=Input.Connection,
         ui_order=5,
@@ -233,7 +233,9 @@ class DenoiseLatentsInvocation(BaseInvocation):
     t2i_adapter: Optional[Union[T2IAdapterField, list[T2IAdapterField]]] = InputField(
         description=FieldDescriptions.t2i_adapter, title="T2I-Adapter", default=None, input=Input.Connection, ui_order=7
     )
-    latents: Optional[LatentsField] = InputField(description=FieldDescriptions.latents, input=Input.Connection)
+    latents: Optional[LatentsField] = InputField(
+        default=None, description=FieldDescriptions.latents, input=Input.Connection
+    )
     denoise_mask: Optional[DenoiseMaskField] = InputField(
         default=None, description=FieldDescriptions.mask, input=Input.Connection, ui_order=8
     )

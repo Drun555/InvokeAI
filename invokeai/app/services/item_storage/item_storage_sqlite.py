@@ -4,7 +4,6 @@ from typing import Generic, Optional, TypeVar, get_args
 
 from pydantic import BaseModel, TypeAdapter
 
-from invokeai.app.services.invoker import Invoker
 from invokeai.app.services.shared.pagination import PaginatedResults
 from invokeai.app.services.shared.sqlite import SqliteDatabase
 
@@ -19,7 +18,7 @@ class SqliteItemStorage(ItemStorageABC, Generic[T]):
     _cursor: sqlite3.Cursor
     _id_field: str
     _lock: threading.Lock
-    _adapter: TypeAdapter[T]
+    _adapter: Optional[TypeAdapter[T]]
 
     def __init__(self, db: SqliteDatabase, table_name: str, id_field: str = "id"):
         super().__init__()
@@ -29,13 +28,9 @@ class SqliteItemStorage(ItemStorageABC, Generic[T]):
         self._table_name = table_name
         self._id_field = id_field  # TODO: validate that T has this field
         self._cursor = self._conn.cursor()
+        self._adapter: Optional[TypeAdapter[T]] = None
 
         self._create_table()
-
-    def start(self, *args) -> None:
-        # We don't get access to `__orig_class__` in `__init__()`
-        # __orig_class__ is technically an implementation detail of the typing module, not a supported API
-        self._adapter = TypeAdapter(get_args(self.__orig_class__)[0])
 
     def _create_table(self):
         try:
@@ -52,6 +47,13 @@ class SqliteItemStorage(ItemStorageABC, Generic[T]):
             self._lock.release()
 
     def _parse_item(self, item: str) -> T:
+        if self._adapter is None:
+            """
+            We don't get access to `__orig_class__` in `__init__()`, and we need this before start(), so
+            we can create it when it is first needed instead.
+            __orig_class__ is technically an implementation detail of the typing module, not a supported API
+            """
+            self._adapter = TypeAdapter(get_args(self.__orig_class__)[0])
         return self._adapter.validate_json(item)
 
     def set(self, item: T):
