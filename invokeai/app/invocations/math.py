@@ -72,7 +72,14 @@ class RandomIntInvocation(BaseInvocation):
         return IntegerOutput(value=np.random.randint(self.low, self.high))
 
 
-@invocation("rand_float", title="Random Float", tags=["math", "float", "random"], category="math", version="1.0.0")
+@invocation(
+    "rand_float",
+    title="Random Float",
+    tags=["math", "float", "random"],
+    category="math",
+    version="1.0.1",
+    use_cache=False,
+)
 class RandomFloatInvocation(BaseInvocation):
     """Outputs a single random float"""
 
