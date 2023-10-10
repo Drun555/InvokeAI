@@ -1,5 +1,5 @@
 from os.path import exists
-from typing import Optional, Union
+from typing import Union
 
 import numpy as np
 from dynamicprompts.generators import CombinatorialPromptGenerator, RandomPromptGenerator
@@ -41,10 +41,10 @@ class PromptsFromFileInvocation(BaseInvocation):
     """Loads prompts from a text file"""
 
     file_path: str = InputField(description="Path to prompt text file")
-    pre_prompt: Optional[str] = InputField(
+    pre_prompt: str = InputField(
         default=None, description="String to prepend to each prompt", ui_component=UIComponent.Textarea
     )
-    post_prompt: Optional[str] = InputField(
+    post_prompt: str = InputField(
         default=None, description="String to append to each prompt", ui_component=UIComponent.Textarea
     )
     start_line: int = InputField(default=1, ge=1, description="Line in the file to start start from")
