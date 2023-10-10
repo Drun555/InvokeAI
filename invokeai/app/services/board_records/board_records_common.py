@@ -18,9 +18,9 @@ class BoardRecord(BaseModelExcludeNull):
     """The created timestamp of the image."""
     updated_at: Union[datetime, str] = Field(description="The updated timestamp of the board.")
     """The updated timestamp of the image."""
-    deleted_at: Union[datetime, str, None] = Field(description="The deleted timestamp of the board.")
+    deleted_at: Optional[Union[datetime, str]] = Field(default=None, description="The deleted timestamp of the board.")
     """The updated timestamp of the image."""
-    cover_image_name: Optional[str] = Field(description="The name of the cover image of the board.")
+    cover_image_name: Optional[str] = Field(default=None, description="The name of the cover image of the board.")
     """The name of the cover image of the board."""
 
 

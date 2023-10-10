@@ -456,7 +456,7 @@ class ImageInverseLerpInvocation(BaseInvocation):
         image = context.services.images.get_pil_image(self.image.image_name)
 
         image_arr = numpy.asarray(image, dtype=numpy.float32)
-        image_arr = numpy.minimum(numpy.maximum(image_arr - self.min, 0) / float(self.max - self.min), 1) * 255
+        image_arr = numpy.minimum(numpy.maximum(image_arr - self.min, 0) / float(self.max - self.min), 1) * 255  # type: ignore [assignment]
 
         ilerp_image = Image.fromarray(numpy.uint8(image_arr))
 
@@ -515,7 +515,7 @@ class ImageNSFWBlurInvocation(BaseInvocation):
             height=image_dto.height,
         )
 
-    def _get_caution_img(self) -> Image:
+    def _get_caution_img(self) -> Image.Image:
         import invokeai.app.assets.images as image_assets
 
         caution = Image.open(Path(image_assets.__path__[0]) / "caution.png")

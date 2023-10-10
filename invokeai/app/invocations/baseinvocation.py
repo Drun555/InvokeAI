@@ -477,8 +477,8 @@ class BaseInvocationOutput(BaseModel):
 
     @classmethod
     def get_outputs_union(cls) -> UnionType:
-        outputs_union = Union[tuple(cls._output_classes)]  # type: ignore
-        return outputs_union
+        outputs_union = Union[tuple(cls._output_classes)]  # type: ignore [valid-type]
+        return outputs_union  # type: ignore [return-value]
 
     @classmethod
     def get_output_types(cls) -> Iterable[str]:
@@ -525,8 +525,8 @@ class BaseInvocation(ABC, BaseModel):
 
     @classmethod
     def get_invocations_union(cls) -> UnionType:
-        invocations_union = Union[tuple(cls._invocation_classes)]  # type: ignore
-        return invocations_union
+        invocations_union = Union[tuple(cls._invocation_classes)]  # type: ignore [valid-type]
+        return invocations_union  # type: ignore [return-value]
 
     @classmethod
     def get_invocations(cls) -> Iterable[BaseInvocation]:
@@ -584,7 +584,8 @@ class BaseInvocation(ABC, BaseModel):
 
     def invoke_internal(self, context: InvocationContext) -> BaseInvocationOutput:
         for field_name, field in self.model_fields.items():
-            if not field.json_schema_extra:
+            if not field.json_schema_extra or callable(field.json_schema_extra):
+                # something has gone terribly awry, we should always have this and it should be a dict
                 continue
             orig_default = field.json_schema_extra.get("orig_default", PydanticUndefined)
             orig_required = field.json_schema_extra.get("orig_required", True)
@@ -723,14 +724,14 @@ def invocation(
             default=invocation_type,
         )
 
-        invocation_with_type = create_model(
+        docstring = cls.__doc__
+        cls = create_model(
             cls.__qualname__,
             __base__=cls,
             __module__=cls.__module__,
-            __doc__=cls.__doc__,
             type=(invocation_type_annotation, invocation_type_field),
         )
-        cls = invocation_with_type
+        cls.__doc__ = docstring
 
         # TODO: how to type this correctly? it's typed as ModelMetaclass, a private class in pydantic
         BaseInvocation.register_invocation(cls)  # type: ignore
@@ -768,13 +769,15 @@ def invocation_output(
             title="type",
             default=output_type,
         )
+
+        docstring = cls.__doc__
         cls = create_model(
             cls.__qualname__,
             __base__=cls,
             __module__=cls.__module__,
-            __doc__=cls.__doc__,
             type=(output_type_annotation, output_type_field),
         )
+        cls.__doc__ = docstring
 
         BaseInvocationOutput.register_output(cls)  # type: ignore # TODO: how to type this correctly?
 

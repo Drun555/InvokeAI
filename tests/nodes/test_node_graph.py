@@ -1,5 +1,5 @@
-from pydantic import TypeAdapter
 import pytest
+from pydantic import TypeAdapter
 
 from invokeai.app.invocations.baseinvocation import (
     BaseInvocation,

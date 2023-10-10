@@ -53,7 +53,7 @@ class SqliteItemStorage(ItemStorageABC, Generic[T]):
             we can create it when it is first needed instead.
             __orig_class__ is technically an implementation detail of the typing module, not a supported API
             """
-            self._adapter = TypeAdapter(get_args(self.__orig_class__)[0])
+            self._adapter = TypeAdapter(get_args(self.__orig_class__)[0])  # type: ignore [attr-defined]
         return self._adapter.validate_json(item)
 
     def set(self, item: T):

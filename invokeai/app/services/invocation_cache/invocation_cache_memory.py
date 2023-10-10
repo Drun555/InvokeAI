@@ -61,7 +61,7 @@ class MemoryInvocationCache(InvocationCacheBase):
             self._cache[key] = CachedItem(
                 invocation_output,
                 invocation_output.model_dump_json(
-                    warnings=False, exclude_defaults=True, exclude_unset=True, include="type"
+                    warnings=False, exclude_defaults=True, exclude_unset=True, include={"type"}
                 ),
             )
 

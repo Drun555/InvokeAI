@@ -185,7 +185,7 @@ class SessionQueueItemWithoutGraph(BaseModel):
     )
 
     @classmethod
-    def from_dict(cls, queue_item_dict: dict) -> "SessionQueueItemDTO":
+    def queue_item_dto_from_dict(cls, queue_item_dict: dict) -> "SessionQueueItemDTO":
         # must parse these manually
         queue_item_dict["field_values"] = get_field_values(queue_item_dict)
         return SessionQueueItemDTO(**queue_item_dict)
@@ -215,7 +215,7 @@ class SessionQueueItem(SessionQueueItemWithoutGraph):
     session: GraphExecutionState = Field(description="The fully-populated session to be executed")
 
     @classmethod
-    def from_dict(cls, queue_item_dict: dict) -> "SessionQueueItem":
+    def queue_item_from_dict(cls, queue_item_dict: dict) -> "SessionQueueItem":
         # must parse these manually
         queue_item_dict["field_values"] = get_field_values(queue_item_dict)
         queue_item_dict["session"] = get_session(queue_item_dict)
@@ -363,7 +363,7 @@ def create_session_nfv_tuples(
                 for item in batch_datum.items
             ]
             node_field_values_to_zip.append(node_field_values)
-        data.append(list(zip(*node_field_values_to_zip)))
+        data.append(list(zip(*node_field_values_to_zip)))  # type: ignore [arg-type]
 
     # create generator to yield session,nfv tuples
     count = 0

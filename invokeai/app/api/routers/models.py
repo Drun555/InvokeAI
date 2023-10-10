@@ -125,7 +125,7 @@ async def update_model(
             base_model=base_model,
             model_type=model_type,
         )
-        model_response = update_model_response_adapter.validate_python(model_raw)
+        model_response = update_models_response_adapter.validate_python(model_raw)
     except ModelNotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e))
     except ValueError as e:

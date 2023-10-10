@@ -142,7 +142,6 @@ class BaseCommand(ABC, BaseModel):
     """A CLI command"""
 
     # All commands must include a type name like this:
-    # type: Literal['your_command_name'] = 'your_command_name'
 
     @classmethod
     def get_all_subclasses(cls):

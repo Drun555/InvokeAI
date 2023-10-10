@@ -251,8 +251,8 @@ class CollectInvocation(BaseInvocation):
         return CollectInvocationOutput(collection=copy.copy(self.collection))
 
 
-InvocationsUnion = BaseInvocation.get_invocations_union()
-InvocationOutputsUnion = BaseInvocationOutput.get_outputs_union()
+InvocationsUnion: Any = BaseInvocation.get_invocations_union()
+InvocationOutputsUnion: Any = BaseInvocationOutput.get_outputs_union()
 
 
 class Graph(BaseModel):
@@ -379,13 +379,13 @@ class Graph(BaseModel):
                 raise NodeNotFoundError(f"Edge destination node {edge.destination.node_id} does not exist in the graph")
 
             # output fields are not on the node object directly, they are on the output type
-            if edge.source.field not in source_node.get_output_type().__fields__:
+            if edge.source.field not in source_node.get_output_type().model_fields:
                 raise NodeFieldNotFoundError(
                     f"Edge source field {edge.source.field} does not exist in node {edge.source.node_id}"
                 )
 
             # input fields are on the node
-            if edge.destination.field not in destination_node.__fields__:
+            if edge.destination.field not in destination_node.model_fields:
                 raise NodeFieldNotFoundError(
                     f"Edge destination field {edge.destination.field} does not exist in node {edge.destination.node_id}"
                 )
@@ -396,24 +396,24 @@ class Graph(BaseModel):
             raise CyclicalGraphError("Graph contains cycles")
 
         # Validate all edge connections are valid
-        for e in self.edges:
+        for edge in self.edges:
             if not are_connections_compatible(
-                self.get_node(e.source.node_id),
-                e.source.field,
-                self.get_node(e.destination.node_id),
-                e.destination.field,
+                self.get_node(edge.source.node_id),
+                edge.source.field,
+                self.get_node(edge.destination.node_id),
+                edge.destination.field,
             ):
                 raise InvalidEdgeError(
-                    f"Invalid edge from {e.source.node_id}.{e.source.field} to {e.destination.node_id}.{e.destination.field}"
+                    f"Invalid edge from {edge.source.node_id}.{edge.source.field} to {edge.destination.node_id}.{edge.destination.field}"
                 )
 
         # Validate all iterators & collectors
         # TODO: may need to validate all iterators & collectors in subgraphs so edge connections in parent graphs will be available
-        for n in self.nodes.values():
-            if isinstance(n, IterateInvocation) and not self._is_iterator_connection_valid(n.id):
-                raise InvalidEdgeError(f"Invalid iterator node {n.id}")
-            if isinstance(n, CollectInvocation) and not self._is_collector_connection_valid(n.id):
-                raise InvalidEdgeError(f"Invalid collector node {n.id}")
+        for node in self.nodes.values():
+            if isinstance(node, IterateInvocation) and not self._is_iterator_connection_valid(node.id):
+                raise InvalidEdgeError(f"Invalid iterator node {node.id}")
+            if isinstance(node, CollectInvocation) and not self._is_collector_connection_valid(node.id):
+                raise InvalidEdgeError(f"Invalid collector node {node.id}")
 
         return None
 
@@ -595,7 +595,7 @@ class Graph(BaseModel):
 
     def _get_input_edges_and_graphs(
         self, node_path: str, prefix: Optional[str] = None
-    ) -> list[tuple["Graph", str, Edge]]:
+    ) -> list[tuple["Graph", Union[str, None], Edge]]:
         """Gets all input edges for a node along with the graph they are in and the graph's path"""
         edges = list()
 
@@ -637,7 +637,7 @@ class Graph(BaseModel):
 
     def _get_output_edges_and_graphs(
         self, node_path: str, prefix: Optional[str] = None
-    ) -> list[tuple["Graph", str, Edge]]:
+    ) -> list[tuple["Graph", Union[str, None], Edge]]:
         """Gets all output edges for a node along with the graph they are in and the graph's path"""
         edges = list()
 
@@ -912,7 +912,7 @@ class GraphExecutionState(BaseModel):
             input_collection = getattr(input_collection_prepared_node_output, input_collection_edge.source.field)
             self_iteration_count = len(input_collection)
 
-        new_nodes = list()
+        new_nodes: list[str] = list()
         if self_iteration_count == 0:
             # TODO: should this raise a warning? It might just happen if an empty collection is input, and should be valid.
             return new_nodes
@@ -922,7 +922,7 @@ class GraphExecutionState(BaseModel):
 
         # Create new edges for this iteration
         # For collect nodes, this may contain multiple inputs to the same field
-        new_edges = list()
+        new_edges: list[Edge] = list()
         for edge in input_edges:
             for input_node_id in (n[1] for n in iteration_node_map if n[0] == edge.source.node_id):
                 new_edge = Edge(
