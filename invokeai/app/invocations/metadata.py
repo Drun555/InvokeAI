@@ -60,7 +60,7 @@ class MetadataInvocation(BaseInvocation):
 
         # add app version
         data.update({"app_version": __version__})
-        return MetadataOutput(metadata=MetadataField(__root__=data))
+        return MetadataOutput(metadata=MetadataField.model_validate(data))
 
 
 @invocation("merge_metadata", title="Metadata Merge", tags=["metadata"], category="metadata", version="1.0.0")
@@ -72,9 +72,9 @@ class MergeMetadataInvocation(BaseInvocation):
     def invoke(self, context: InvocationContext) -> MetadataOutput:
         data = {}
         for item in self.collection:
-            data.update(item.dict())
+            data.update(item.model_dump())
 
-        return MetadataOutput(metadata=MetadataField(__root__=data))
+        return MetadataOutput(metadata=MetadataField.model_validate(data))
 
 
 @invocation(
@@ -158,4 +158,4 @@ class CoreMetadataInvocation(BaseInvocation):
     def invoke(self, context: InvocationContext) -> MetadataOutput:
         """Collects and outputs a CoreMetadata object"""
 
-        return MetadataOutput(metadata=MetadataField(__root__=self.dict()))
+        return MetadataOutput(metadata=MetadataField.model_validate(self.model_dump()))

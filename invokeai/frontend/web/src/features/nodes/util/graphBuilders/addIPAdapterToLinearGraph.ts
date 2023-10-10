@@ -1,15 +1,10 @@
 import { RootState } from 'app/store/store';
 import { selectValidIPAdapters } from 'features/controlAdapters/store/controlAdaptersSlice';
-import {
-  CollectInvocation,
-  IPAdapterInvocation,
-  MetadataAccumulatorInvocation,
-} from 'services/api/types';
+import { CollectInvocation, IPAdapterInvocation } from 'services/api/types';
 import { NonNullableGraph } from '../../types/types';
 import {
   CANVAS_COHERENCE_DENOISE_LATENTS,
   IP_ADAPTER_COLLECT,
-  METADATA_ACCUMULATOR,
 } from './constants';
 
 export const addIPAdapterToLinearGraph = (
@@ -21,9 +16,9 @@ export const addIPAdapterToLinearGraph = (
     (ca) => ca.model?.base_model === state.generation.model?.base_model
   );
 
-  const metadataAccumulator = graph.nodes[METADATA_ACCUMULATOR] as
-    | MetadataAccumulatorInvocation
-    | undefined;
+  // const metadataAccumulator = graph.nodes[METADATA_ACCUMULATOR] as
+  //   | MetadataAccumulatorInvocation
+  //   | undefined;
 
   if (validIPAdapters.length) {
     // Even though denoise_latents' control input is polymorphic, keep it simple and always use a collect

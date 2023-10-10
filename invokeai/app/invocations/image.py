@@ -1,7 +1,7 @@
 # Copyright (c) 2022 Kyle Schouviller (https://github.com/kyle0654)
 
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Literal
 
 import cv2
 import numpy
@@ -18,9 +18,9 @@ from .baseinvocation import (
     Input,
     InputField,
     InvocationContext,
+    WithMetadata,
     WithWorkflow,
     invocation,
-    WithMetadata,
 )
 
 

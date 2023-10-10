@@ -81,8 +81,6 @@ export const COLLECTION_MAP: FieldTypeMapWithNumber = {
   ColorField: 'ColorCollection',
   T2IAdapterField: 'T2IAdapterCollection',
   IPAdapterField: 'IPAdapterCollection',
-  MetadataItem: 'MetadataItemCollection',
-  MetadataDict: 'MetadataDictCollection',
   MetadataItemField: 'MetadataItemCollection',
   MetadataField: 'MetadataCollection',
 };
@@ -104,7 +102,6 @@ export const SINGLE_TO_POLYMORPHIC_MAP: FieldTypeMapWithNumber = {
   ColorField: 'ColorPolymorphic',
   T2IAdapterField: 'T2IAdapterPolymorphic',
   IPAdapterField: 'IPAdapterPolymorphic',
-  MetadataItem: 'MetadataItemPolymorphic',
   MetadataItemField: 'MetadataItemPolymorphic',
 };
 
@@ -120,7 +117,6 @@ export const POLYMORPHIC_TO_SINGLE_MAP: FieldTypeMap = {
   ColorPolymorphic: 'ColorField',
   T2IAdapterPolymorphic: 'T2IAdapterField',
   IPAdapterPolymorphic: 'IPAdapterField',
-  MetadataItemPolymorphic: 'MetadataItem',
   MetadataItemPolymorphic: 'MetadataItemField',
 };
 

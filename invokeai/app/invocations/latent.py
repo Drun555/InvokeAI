@@ -63,8 +63,8 @@ from .baseinvocation import (
     InvocationContext,
     OutputField,
     UIType,
-    WithWorkflow,
     WithMetadata,
+    WithWorkflow,
     invocation,
     invocation_output,
 )

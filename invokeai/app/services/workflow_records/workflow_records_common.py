@@ -1,19 +1,22 @@
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import Field, RootModel, TypeAdapter
 
 
 class WorkflowNotFoundError(Exception):
     """Raised when a workflow is not found"""
 
 
-class WorkflowField(BaseModel):
+class WorkflowField(RootModel):
     """
     Pydantic model for workflows with custom root of type dict[str, Any].
     Workflows are stored without a strict schema.
     """
 
-    __root__: dict[str, Any] = Field(description="Workflow dict")
+    root: dict[str, Any] = Field(description="Workflow dict")
 
-    def dict(self, *args, **kwargs) -> dict[str, Any]:
-        return super().model_dump(*args, **kwargs)["__root__"]
+    def model_dump(self, *args, **kwargs) -> dict[str, Any]:
+        return super().model_dump(*args, **kwargs)["root"]
+
+
+type_adapter_WorkflowField = TypeAdapter(WorkflowField)

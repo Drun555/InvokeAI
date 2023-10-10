@@ -6,7 +6,7 @@ import {
   ControlField,
   ControlNetInvocation,
 } from 'services/api/types';
-import { NonNullableGraph, zControlField } from '../../types/types';
+import { NonNullableGraph } from '../../types/types';
 import {
   CANVAS_COHERENCE_DENOISE_LATENTS,
   CONTROL_NET_COLLECT,
@@ -22,9 +22,9 @@ export const addControlNetToLinearGraph = (
     (ca) => ca.model?.base_model === state.generation.model?.base_model
   );
 
-  const metadataAccumulator = graph.nodes[METADATA_ACCUMULATOR] as
-    | MetadataAccumulatorInvocation
-    | undefined;
+  // const metadataAccumulator = graph.nodes[METADATA_ACCUMULATOR] as
+  //   | MetadataAccumulatorInvocation
+  //   | undefined;
 
   if (validControlNets.length) {
     // Even though denoise_latents' control input is polymorphic, keep it simple and always use a collect

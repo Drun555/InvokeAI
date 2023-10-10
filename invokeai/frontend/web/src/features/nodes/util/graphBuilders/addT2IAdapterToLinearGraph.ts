@@ -1,15 +1,10 @@
 import { RootState } from 'app/store/store';
 import { selectValidT2IAdapters } from 'features/controlAdapters/store/controlAdaptersSlice';
 import { omit } from 'lodash-es';
-import {
-  CollectInvocation,
-  MetadataAccumulatorInvocation,
-  T2IAdapterInvocation,
-} from 'services/api/types';
+import { CollectInvocation, T2IAdapterInvocation } from 'services/api/types';
 import { NonNullableGraph, T2IAdapterField } from '../../types/types';
 import {
   CANVAS_COHERENCE_DENOISE_LATENTS,
-  METADATA_ACCUMULATOR,
   T2I_ADAPTER_COLLECT,
 } from './constants';
 
@@ -22,9 +17,9 @@ export const addT2IAdaptersToLinearGraph = (
     (ca) => ca.model?.base_model === state.generation.model?.base_model
   );
 
-  const metadataAccumulator = graph.nodes[METADATA_ACCUMULATOR] as
-    | MetadataAccumulatorInvocation
-    | undefined;
+  // const metadataAccumulator = graph.nodes[METADATA_ACCUMULATOR] as
+  //   | MetadataAccumulatorInvocation
+  //   | undefined;
 
   if (validT2IAdapters.length) {
     // Even though denoise_latents' control input is polymorphic, keep it simple and always use a collect

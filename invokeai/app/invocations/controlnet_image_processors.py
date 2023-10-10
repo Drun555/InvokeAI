@@ -38,10 +38,10 @@ from .baseinvocation import (
     InputField,
     InvocationContext,
     OutputField,
+    WithMetadata,
     WithWorkflow,
     invocation,
     invocation_output,
-    WithMetadata,
 )
 
 CONTROLNET_MODE_VALUES = Literal["balanced", "more_prompt", "more_control", "unbalanced"]

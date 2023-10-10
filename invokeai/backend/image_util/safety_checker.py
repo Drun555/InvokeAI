@@ -45,21 +45,21 @@ class SafetyChecker:
         self.tried_load = True
 
     @classmethod
-    def safety_checker_available(self) -> bool:
-        self._load_safety_checker()
-        return self.safety_checker is not None
+    def safety_checker_available(cls) -> bool:
+        cls._load_safety_checker()
+        return cls.safety_checker is not None
 
     @classmethod
-    def has_nsfw_concept(self, image: Image) -> bool:
-        if not self.safety_checker_available():
+    def has_nsfw_concept(cls, image: Image.Image) -> bool:
+        if not cls.safety_checker_available():
             return False
 
         device = choose_torch_device()
-        features = self.feature_extractor([image], return_tensors="pt")
+        features = cls.feature_extractor([image], return_tensors="pt")
         features.to(device)
-        self.safety_checker.to(device)
+        cls.safety_checker.to(device)
         x_image = np.array(image).astype(np.float32) / 255.0
         x_image = x_image[None].transpose(0, 3, 1, 2)
         with SilenceWarnings():
-            checked_image, has_nsfw_concept = self.safety_checker(images=x_image, clip_input=features.pixel_values)
+            checked_image, has_nsfw_concept = cls.safety_checker(images=x_image, clip_input=features.pixel_values)
         return has_nsfw_concept[0]

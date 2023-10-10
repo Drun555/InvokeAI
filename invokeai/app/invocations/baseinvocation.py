@@ -10,7 +10,7 @@ from types import UnionType
 from typing import TYPE_CHECKING, Any, Callable, ClassVar, Iterable, Literal, Optional, Type, TypeVar, Union
 
 import semver
-from pydantic import BaseModel, ConfigDict, Field, create_model
+from pydantic import BaseModel, ConfigDict, Field, RootModel, TypeAdapter, create_model
 from pydantic.fields import _Unset
 from pydantic_core import PydanticUndefined
 
@@ -785,16 +785,19 @@ class MetadataItemField(BaseModel):
     value: Any = Field(description=FieldDescriptions.metadata_item_value)
 
 
-class MetadataField(BaseModel):
+class MetadataField(RootModel):
     """
     Pydantic model for metadata with custom root of type dict[str, Any].
     Workflows are stored without a strict schema.
     """
 
-    __root__: dict[str, Any] = Field(description="A dictionary of metadata, shape of which is arbitrary")
+    root: dict[str, Any] = Field(description="A dictionary of metadata, shape of which is arbitrary")
 
-    def dict(self, *args, **kwargs) -> dict[str, Any]:
-        return super().dict(*args, **kwargs)["__root__"]
+    def model_dump(self, *args, **kwargs) -> dict[str, Any]:
+        return super().model_dump(*args, **kwargs)["root"]
+
+
+type_adapter_MetadataField = TypeAdapter(MetadataField)
 
 
 class WithMetadata(BaseModel):

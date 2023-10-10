@@ -58,7 +58,7 @@ class ImageService(ImageServiceABC):
         try:
             if workflow is not None:
                 created_workflow = self.__invoker.services.workflow_records.create(workflow)
-                workflow_id = created_workflow.dict()["id"]
+                workflow_id = created_workflow.model_dump()["id"]
             else:
                 workflow_id = None
 

@@ -35,10 +35,11 @@ const ImageMetadataViewer = ({ image }: ImageMetadataViewerProps) => {
   const [debouncedImageName] = useDebounce(image.image_name, 300);
   const [debouncedWorkflowId] = useDebounce(image.workflow_id, 300);
 
-  const { data: metadata, isLoading: isLoadingMetadata } =
-    useGetImageMetadataQuery(debouncedImageName ?? skipToken);
+  const { data: metadata } = useGetImageMetadataQuery(
+    debouncedImageName ?? skipToken
+  );
 
-  const { data: workflow, isLoading: isLoadingWorkflow } = useGetWorkflowQuery(
+  const { data: workflow } = useGetWorkflowQuery(
     debouncedWorkflowId ?? skipToken
   );
 
