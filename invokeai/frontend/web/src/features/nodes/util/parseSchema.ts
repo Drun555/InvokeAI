@@ -222,7 +222,8 @@ export const parseSchema = (
         outputsAccumulator[propertyName] = {
           fieldKind: 'output',
           name: propertyName,
-          title: property.title ?? propertyName ? startCase(propertyName) : '',
+          title:
+            property.title ?? (propertyName ? startCase(propertyName) : ''),
           description: property.description ?? '',
           type: fieldType,
           ui_hidden: property.ui_hidden ?? false,

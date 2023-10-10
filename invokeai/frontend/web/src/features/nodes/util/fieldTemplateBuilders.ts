@@ -1050,7 +1050,7 @@ export const buildInputFieldTemplate = (
 
   const baseField = {
     name,
-    title: fieldSchema.title ?? name ? startCase(name) : '',
+    title: fieldSchema.title ?? (name ? startCase(name) : ''),
     description: fieldSchema.description ?? '',
     fieldKind: 'input' as const,
     ...extra,
