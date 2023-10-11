@@ -815,12 +815,10 @@ def test_any_accepts_any():
     g.add_edge(e)
 
 
-@pytest.mark.xfail(
-    reason="""We need to update the validation for Collect -> Iterate to traverse to the Iterate
+def test_iterate_accepts_collection():
+    """We need to update the validation for Collect -> Iterate to traverse to the Iterate
     node's output and compare that against the item type of the Collect node's collection. Until
     then, Collect nodes may not output into Iterate nodes."""
-)
-def test_iterate_accepts_collection():
     g = Graph()
     n1 = IntegerInvocation(id="1", value=1)
     n2 = IntegerInvocation(id="2", value=2)
@@ -835,7 +833,7 @@ def test_iterate_accepts_collection():
     e3 = create_edge(n3.id, "collection", n4.id, "collection")
     g.add_edge(e1)
     g.add_edge(e2)
-    # eventually this should succeed
+    # Once we fix the validation logic as described, this should should not raise an error
     with pytest.raises(InvalidEdgeError, match="Cannot connect collector to iterator"):
         g.add_edge(e3)
 
