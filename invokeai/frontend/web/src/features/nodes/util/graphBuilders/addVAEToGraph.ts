@@ -24,7 +24,7 @@ import {
   TEXT_TO_IMAGE_GRAPH,
   VAE_LOADER,
 } from './constants';
-import { addMainMetadata } from './metadata';
+import { upsertMetadata } from './metadata';
 
 export const addVAEToGraph = (
   state: RootState,
@@ -178,6 +178,6 @@ export const addVAEToGraph = (
   }
 
   if (vae) {
-    addMainMetadata(graph, { vae });
+    upsertMetadata(graph, { vae });
   }
 };

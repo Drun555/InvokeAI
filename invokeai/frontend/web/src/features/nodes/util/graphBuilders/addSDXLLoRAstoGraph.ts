@@ -17,7 +17,7 @@ import {
   SDXL_REFINER_INPAINT_CREATE_MASK,
   SEAMLESS,
 } from './constants';
-import { addMainMetadata } from './metadata';
+import { upsertMetadata } from './metadata';
 
 export const addSDXLLoRAsToGraph = (
   state: RootState,
@@ -238,5 +238,5 @@ export const addSDXLLoRAsToGraph = (
     currentLoraIndex += 1;
   });
 
-  addMainMetadata(graph, { loras: loraMetadata });
+  upsertMetadata(graph, { loras: loraMetadata });
 };

@@ -143,14 +143,12 @@ export type ImageWatermarkInvocation = s['ImageWatermarkInvocation'];
 export type SeamlessModeInvocation = s['SeamlessModeInvocation'];
 export type SaveImageInvocation = s['SaveImageInvocation'];
 export type MetadataInvocation = s['MetadataInvocation'];
-export type MetadataInvocationAsCollection = Omit<
-  s['MetadataInvocation'],
-  'items'
-> & {
-  items: s['MetadataItemField'][];
-};
+export type CoreMetadataInvocation = s['CoreMetadataInvocation'];
 export type MetadataItemInvocation = s['MetadataItemInvocation'];
 export type MergeMetadataInvocation = s['MergeMetadataInvocation'];
+export type IPAdapterMetadataField = s['IPAdapterMetadataField'];
+export type T2IAdapterField = s['T2IAdapterField'];
+export type LoRAMetadataField = s['LoRAMetadataField'];
 
 // ControlNet Nodes
 export type ControlNetInvocation = s['ControlNetInvocation'];

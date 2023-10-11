@@ -27,7 +27,7 @@ import {
   RESIZE,
   SEAMLESS,
 } from './constants';
-import { addMainMetadataNodeToGraph } from './metadata';
+import { addCoreMetadataNode } from './metadata';
 
 /**
  * Builds the Image to Image tab graph.
@@ -311,7 +311,7 @@ export const buildLinearImageToImageGraph = (
     });
   }
 
-  addMainMetadataNodeToGraph(graph, {
+  addCoreMetadataNode(graph, {
     generation_mode: 'img2img',
     cfg_scale,
     height,

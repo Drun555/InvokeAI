@@ -1,11 +1,10 @@
 import { RootState } from 'app/store/store';
-import {
-  LoRAMetadataItem,
-  NonNullableGraph,
-  zLoRAMetadataItem,
-} from 'features/nodes/types/types';
+import { NonNullableGraph } from 'features/nodes/types/types';
 import { forEach, size } from 'lodash-es';
-import { LoraLoaderInvocation } from 'services/api/types';
+import {
+  CoreMetadataInvocation,
+  LoraLoaderInvocation,
+} from 'services/api/types';
 import {
   CANVAS_COHERENCE_DENOISE_LATENTS,
   CANVAS_INPAINT_GRAPH,
@@ -16,7 +15,7 @@ import {
   NEGATIVE_CONDITIONING,
   POSITIVE_CONDITIONING,
 } from './constants';
-import { addMainMetadata } from './metadata';
+import { upsertMetadata } from './metadata';
 
 export const addLoRAsToGraph = (
   state: RootState,
@@ -56,7 +55,7 @@ export const addLoRAsToGraph = (
   // we need to remember the last lora so we can chain from it
   let lastLoraNodeId = '';
   let currentLoraIndex = 0;
-  const loraMetadata: LoRAMetadataItem[] = [];
+  const loraMetadata: CoreMetadataInvocation['loras'] = [];
 
   forEach(loras, (lora) => {
     const { model_name, base_model, weight } = lora;
@@ -70,12 +69,10 @@ export const addLoRAsToGraph = (
       weight,
     };
 
-    loraMetadata.push(
-      zLoRAMetadataItem.parse({
-        lora: { model_name, base_model },
-        weight,
-      })
-    );
+    loraMetadata.push({
+      lora: { model_name, base_model },
+      weight,
+    });
 
     // add to graph
     graph.nodes[currentLoraNodeId] = loraLoaderNode;
@@ -183,5 +180,5 @@ export const addLoRAsToGraph = (
     currentLoraIndex += 1;
   });
 
-  addMainMetadata(graph, { loras: loraMetadata });
+  upsertMetadata(graph, { loras: loraMetadata });
 };

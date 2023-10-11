@@ -25,7 +25,7 @@ import {
   POSITIVE_CONDITIONING,
   SEAMLESS,
 } from './constants';
-import { addMainMetadataNodeToGraph } from './metadata';
+import { addCoreMetadataNode } from './metadata';
 
 /**
  * Builds the Canvas tab's Image to Image graph.
@@ -308,7 +308,7 @@ export const buildCanvasImageToImageGraph = (
     });
   }
 
-  addMainMetadataNodeToGraph(graph, {
+  addCoreMetadataNode(graph, {
     generation_mode: 'img2img',
     cfg_scale,
     width: !isUsingScaledDimensions ? width : scaledBoundingBoxDimensions.width,

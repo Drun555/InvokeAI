@@ -1,4 +1,6 @@
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal, Union
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from invokeai.app.invocations.baseinvocation import (
     BaseInvocation,
@@ -14,9 +16,39 @@ from invokeai.app.invocations.baseinvocation import (
     invocation_output,
 )
 from invokeai.app.invocations.controlnet_image_processors import ControlField
-from invokeai.app.invocations.model import MainModelField, VAEModelField
+from invokeai.app.invocations.ip_adapter import IPAdapterModelField
+from invokeai.app.invocations.model import LoRAModelField, MainModelField, VAEModelField
+from invokeai.app.invocations.primitives import ImageField
+from invokeai.app.invocations.t2i_adapter import T2IAdapterField
 
 from ...version import __version__
+
+
+class LoRAMetadataField(BaseModel):
+    """LoRA Metadata Field"""
+
+    lora: LoRAModelField = Field(description=FieldDescriptions.lora_model)
+    weight: float = Field(description=FieldDescriptions.lora_weight)
+
+
+class IPAdapterMetadataField(BaseModel):
+    """IP Adapter Field, minus the CLIP Vision Encoder model"""
+
+    image: ImageField = Field(description="The IP-Adapter image prompt.")
+    ip_adapter_model: IPAdapterModelField = Field(
+        description="The IP-Adapter model.",
+    )
+    weight: Union[float, list[float]] = Field(
+        default=1,
+        ge=0,
+        description="The weight given to the IP-Adapter",
+    )
+    begin_step_percent: float = Field(
+        default=0, ge=-1, le=2, description="When the IP-Adapter is first applied (% of total steps)"
+    )
+    end_step_percent: float = Field(
+        default=1, ge=0, le=1, description="When the IP-Adapter is last applied (% of total steps)"
+    )
 
 
 @invocation_output("metadata_item_output")
@@ -77,80 +109,86 @@ class MergeMetadataInvocation(BaseInvocation):
         return MetadataOutput(metadata=MetadataField.model_validate(data))
 
 
-@invocation(
-    "metadata_accumulator", title="Metadata Accumulator", tags=["metadata"], category="metadata", version="1.0.0"
-)
+@invocation("core_metadata", title="Core Metadata", tags=["metadata"], category="metadata", version="1.0.0")
 class CoreMetadataInvocation(BaseInvocation):
-    """Outputs a Core Metadata Object"""
+    """Collects core generation metadata into a MetadataField"""
 
     generation_mode: Literal["txt2img", "img2img", "inpaint", "outpaint"] = InputField(
+        default=None,
         description="The generation mode that output this image",
     )
-    positive_prompt: Optional[str] = InputField(default=None, description="The positive prompt parameter")
-    negative_prompt: Optional[str] = InputField(default=None, description="The negative prompt parameter")
-    width: Optional[int] = InputField(default=None, description="The width parameter")
-    height: Optional[int] = InputField(default=None, description="The height parameter")
-    seed: Optional[int] = InputField(default=None, description="The seed used for noise generation")
-    rand_device: Optional[str] = InputField(default=None, description="The device used for random number generation")
-    cfg_scale: Optional[float] = InputField(default=None, description="The classifier-free guidance scale parameter")
-    steps: Optional[int] = InputField(default=None, description="The number of steps used for inference")
-    scheduler: Optional[str] = InputField(default=None, description="The scheduler used for inference")
-    clip_skip: Optional[int] = InputField(
+    positive_prompt: str = InputField(default=None, description="The positive prompt parameter")
+    negative_prompt: str = InputField(default=None, description="The negative prompt parameter")
+    width: int = InputField(default=None, description="The width parameter")
+    height: int = InputField(default=None, description="The height parameter")
+    seed: int = InputField(default=None, description="The seed used for noise generation")
+    rand_device: str = InputField(default=None, description="The device used for random number generation")
+    cfg_scale: float = InputField(default=None, description="The classifier-free guidance scale parameter")
+    steps: int = InputField(default=None, description="The number of steps used for inference")
+    scheduler: str = InputField(default=None, description="The scheduler used for inference")
+    seamless_x: bool = InputField(default=None, description="Whether seamless tiling was used on the X axis")
+    seamless_y: bool = InputField(default=None, description="Whether seamless tiling was used on the Y axis")
+    clip_skip: int = InputField(
         default=None,
         description="The number of skipped CLIP layers",
     )
-    model: MainModelField = InputField(description="The main model used for inference")
-    controlnets: list[ControlField] = InputField(description="The ControlNets used for inference")
-    # loras: list[LoRAMetadataField] = InputField(description="The LoRAs used for inference")
-    strength: Optional[float] = InputField(
+    model: MainModelField = InputField(default=None, description="The main model used for inference")
+    controlnets: list[ControlField] = InputField(default=None, description="The ControlNets used for inference")
+    ipAdapters: list[IPAdapterMetadataField] = InputField(
+        default=None, description="The IP Adapters used for inference"
+    )
+    t2iAdapters: list[T2IAdapterField] = InputField(default=None, description="The IP Adapters used for inference")
+    controlnets: list[ControlField] = InputField(default=None, description="The ControlNets used for inference")
+    loras: list[LoRAMetadataField] = InputField(default=None, description="The LoRAs used for inference")
+    strength: float = InputField(
         default=None,
         description="The strength used for latents-to-latents",
     )
-    init_image: Optional[str] = InputField(
+    init_image: str = InputField(
         default=None,
         description="The name of the initial image",
     )
-    vae: Optional[VAEModelField] = InputField(
+    vae: VAEModelField = InputField(
         default=None,
         description="The VAE used for decoding, if the main model's default was not used",
     )
 
     # SDXL
-    positive_style_prompt: Optional[str] = InputField(
+    positive_style_prompt: str = InputField(
         default=None,
         description="The positive style prompt parameter",
     )
-    negative_style_prompt: Optional[str] = InputField(
+    negative_style_prompt: str = InputField(
         default=None,
         description="The negative style prompt parameter",
     )
 
     # SDXL Refiner
-    refiner_model: Optional[MainModelField] = InputField(
+    refiner_model: MainModelField = InputField(
         default=None,
         description="The SDXL Refiner model used",
     )
-    refiner_cfg_scale: Optional[float] = InputField(
+    refiner_cfg_scale: float = InputField(
         default=None,
         description="The classifier-free guidance scale parameter used for the refiner",
     )
-    refiner_steps: Optional[int] = InputField(
+    refiner_steps: int = InputField(
         default=None,
         description="The number of steps used for the refiner",
     )
-    refiner_scheduler: Optional[str] = InputField(
+    refiner_scheduler: str = InputField(
         default=None,
         description="The scheduler used for the refiner",
     )
-    refiner_positive_aesthetic_score: Optional[float] = InputField(
+    refiner_positive_aesthetic_score: float = InputField(
         default=None,
         description="The aesthetic score used for the refiner",
     )
-    refiner_negative_aesthetic_score: Optional[float] = InputField(
+    refiner_negative_aesthetic_score: float = InputField(
         default=None,
         description="The aesthetic score used for the refiner",
     )
-    refiner_start: Optional[float] = InputField(
+    refiner_start: float = InputField(
         default=None,
         description="The start value used for refiner denoising",
     )
@@ -158,4 +196,10 @@ class CoreMetadataInvocation(BaseInvocation):
     def invoke(self, context: InvocationContext) -> MetadataOutput:
         """Collects and outputs a CoreMetadata object"""
 
-        return MetadataOutput(metadata=MetadataField.model_validate(self.model_dump()))
+        return MetadataOutput(
+            metadata=MetadataField.model_validate(
+                self.model_dump(exclude_none=True, exclude={"id", "type", "is_intermediate", "use_cache"})
+            )
+        )
+
+    model_config = ConfigDict(extra="allow")

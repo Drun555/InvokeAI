@@ -1,7 +1,7 @@
 import { RootState } from 'app/store/store';
 import { SeamlessModeInvocation } from 'services/api/types';
 import { NonNullableGraph } from '../../types/types';
-import { addMainMetadata } from './metadata';
+import { upsertMetadata } from './metadata';
 import {
   CANVAS_COHERENCE_DENOISE_LATENTS,
   CANVAS_INPAINT_GRAPH,
@@ -32,10 +32,16 @@ export const addSeamlessToLinearGraph = (
     seamless_y: seamlessYAxis,
   } as SeamlessModeInvocation;
 
-  addMainMetadata(graph, {
-    seamless_x: seamlessXAxis,
-    seamless_y: seamlessYAxis,
-  });
+  if (seamlessXAxis) {
+    upsertMetadata(graph, {
+      seamless_x: seamlessXAxis,
+    });
+  }
+  if (seamlessYAxis) {
+    upsertMetadata(graph, {
+      seamless_y: seamlessYAxis,
+    });
+  }
 
   let denoisingNodeId = DENOISE_LATENTS;
 

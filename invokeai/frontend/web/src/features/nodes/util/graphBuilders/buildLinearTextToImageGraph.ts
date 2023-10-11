@@ -14,7 +14,7 @@ import { addSeamlessToLinearGraph } from './addSeamlessToLinearGraph';
 import { addT2IAdaptersToLinearGraph } from './addT2IAdapterToLinearGraph';
 import { addVAEToGraph } from './addVAEToGraph';
 import { addWatermarkerToGraph } from './addWatermarkerToGraph';
-import { addMainMetadataNodeToGraph } from './metadata';
+import { addCoreMetadataNode } from './metadata';
 import {
   CLIP_SKIP,
   DENOISE_LATENTS,
@@ -233,7 +233,7 @@ export const buildLinearTextToImageGraph = (
     ],
   };
 
-  addMainMetadataNodeToGraph(graph, {
+  addCoreMetadataNode(graph, {
     generation_mode: 'txt2img',
     cfg_scale,
     height,

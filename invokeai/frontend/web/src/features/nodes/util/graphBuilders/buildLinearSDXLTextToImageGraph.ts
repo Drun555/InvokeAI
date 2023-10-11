@@ -11,7 +11,7 @@ import { addSeamlessToLinearGraph } from './addSeamlessToLinearGraph';
 import { addT2IAdaptersToLinearGraph } from './addT2IAdapterToLinearGraph';
 import { addVAEToGraph } from './addVAEToGraph';
 import { addWatermarkerToGraph } from './addWatermarkerToGraph';
-import { addMainMetadataNodeToGraph } from './metadata';
+import { addCoreMetadataNode } from './metadata';
 import {
   LATENTS_TO_IMAGE,
   NEGATIVE_CONDITIONING,
@@ -225,7 +225,7 @@ export const buildLinearSDXLTextToImageGraph = (
     ],
   };
 
-  addMainMetadataNodeToGraph(graph, {
+  addCoreMetadataNode(graph, {
     generation_mode: 'sdxl_txt2img',
     cfg_scale,
     height,

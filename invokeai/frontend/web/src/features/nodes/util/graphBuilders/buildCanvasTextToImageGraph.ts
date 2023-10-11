@@ -27,7 +27,7 @@ import {
   POSITIVE_CONDITIONING,
   SEAMLESS,
 } from './constants';
-import { addMainMetadataNodeToGraph } from './metadata';
+import { addCoreMetadataNode } from './metadata';
 
 /**
  * Builds the Canvas tab's Text to Image graph.
@@ -289,7 +289,7 @@ export const buildCanvasTextToImageGraph = (
     });
   }
 
-  addMainMetadataNodeToGraph(graph, {
+  addCoreMetadataNode(graph, {
     generation_mode: 'txt2img',
     cfg_scale,
     width: !isUsingScaledDimensions ? width : scaledBoundingBoxDimensions.width,

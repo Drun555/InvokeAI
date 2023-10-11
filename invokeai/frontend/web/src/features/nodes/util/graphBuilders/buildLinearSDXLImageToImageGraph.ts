@@ -29,7 +29,7 @@ import {
   SEAMLESS,
 } from './constants';
 import { buildSDXLStylePrompts } from './helpers/craftSDXLStylePrompt';
-import { addMainMetadataNodeToGraph } from './metadata';
+import { addCoreMetadataNode } from './metadata';
 
 /**
  * Builds the Image to Image tab graph.
@@ -331,7 +331,7 @@ export const buildLinearSDXLImageToImageGraph = (
     });
   }
 
-  addMainMetadataNodeToGraph(graph, {
+  addCoreMetadataNode(graph, {
     generation_mode: 'sdxl_img2img',
     cfg_scale,
     height,

@@ -24,7 +24,7 @@ import {
   SDXL_REFINER_SEAMLESS,
 } from './constants';
 import { buildSDXLStylePrompts } from './helpers/craftSDXLStylePrompt';
-import { addMainMetadata } from './metadata';
+import { upsertMetadata } from './metadata';
 
 export const addSDXLRefinerToGraph = (
   state: RootState,
@@ -57,7 +57,7 @@ export const addSDXLRefinerToGraph = (
     return;
   }
 
-  addMainMetadata(graph, {
+  upsertMetadata(graph, {
     refiner_model: refinerModel,
     refiner_positive_aesthetic_score: refinerPositiveAestheticScore,
     refiner_negative_aesthetic_score: refinerNegativeAestheticScore,

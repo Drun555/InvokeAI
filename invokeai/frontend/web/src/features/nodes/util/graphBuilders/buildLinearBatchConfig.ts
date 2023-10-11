@@ -4,20 +4,15 @@ import { generateSeeds } from 'common/util/generateSeeds';
 import { NonNullableGraph } from 'features/nodes/types/types';
 import { range, unset } from 'lodash-es';
 import { components } from 'services/api/schema';
-import { Batch, BatchConfig, MetadataItemInvocation } from 'services/api/types';
+import { Batch, BatchConfig } from 'services/api/types';
 import {
-  BATCH_PROMPT,
-  BATCH_SEED,
-  BATCH_STYLE_PROMPT,
   CANVAS_COHERENCE_NOISE,
+  METADATA,
   METADATA_ACCUMULATOR,
   NOISE,
   POSITIVE_CONDITIONING,
 } from './constants';
-import {
-  addBatchMetadataNodeToGraph,
-  removeMetadataFromMainMetadataNode,
-} from './metadata';
+import { removeMetadata } from './metadata';
 
 export const prepareLinearUIBatch = (
   state: RootState,
@@ -29,26 +24,6 @@ export const prepareLinearUIBatch = (
   const { prompts, seedBehaviour } = state.dynamicPrompts;
 
   const data: Batch['data'] = [];
-
-  const seedMetadataItemNode: MetadataItemInvocation = {
-    id: BATCH_SEED,
-    type: 'metadata_item',
-    label: 'seed',
-  };
-
-  const promptMetadataItemNode: MetadataItemInvocation = {
-    id: BATCH_PROMPT,
-    type: 'metadata_item',
-    label: 'positive_prompt',
-  };
-
-  const stylePromptMetadataItemNode: MetadataItemInvocation = {
-    id: BATCH_STYLE_PROMPT,
-    type: 'metadata_item',
-    label: 'positive_style_prompt',
-  };
-
-  const itemNodesIds: string[] = [];
 
   if (prompts.length === 1) {
     const seeds = generateSeeds({
@@ -67,12 +42,10 @@ export const prepareLinearUIBatch = (
     }
 
     // add to metadata
-    removeMetadataFromMainMetadataNode(graph, 'seed');
-    itemNodesIds.push(BATCH_SEED);
-    graph.nodes[BATCH_SEED] = seedMetadataItemNode;
+    removeMetadata(graph, 'seed');
     zipped.push({
-      node_path: BATCH_SEED,
-      field_name: 'value',
+      node_path: METADATA,
+      field_name: 'seed',
       items: seeds,
     });
 
@@ -106,12 +79,10 @@ export const prepareLinearUIBatch = (
       }
 
       // add to metadata
-      removeMetadataFromMainMetadataNode(graph, 'seed');
-      itemNodesIds.push(BATCH_SEED);
-      graph.nodes[BATCH_SEED] = seedMetadataItemNode;
+      removeMetadata(graph, 'seed');
       firstBatchDatumList.push({
-        node_path: BATCH_SEED,
-        field_name: 'value',
+        node_path: METADATA,
+        field_name: 'seed',
         items: seeds,
       });
 
@@ -138,12 +109,10 @@ export const prepareLinearUIBatch = (
       }
 
       // add to metadata
-      removeMetadataFromMainMetadataNode(graph, 'seed');
-      itemNodesIds.push(BATCH_SEED);
-      graph.nodes[BATCH_SEED] = seedMetadataItemNode;
+      removeMetadata(graph, 'seed');
       secondBatchDatumList.push({
-        node_path: BATCH_SEED,
-        field_name: 'value',
+        node_path: METADATA,
+        field_name: 'seed',
         items: seeds,
       });
 
@@ -172,12 +141,10 @@ export const prepareLinearUIBatch = (
     }
 
     // add to metadata
-    removeMetadataFromMainMetadataNode(graph, 'positive_prompt');
-    itemNodesIds.push(BATCH_PROMPT);
-    graph.nodes[BATCH_PROMPT] = promptMetadataItemNode;
+    removeMetadata(graph, 'positive_prompt');
     firstBatchDatumList.push({
-      node_path: BATCH_PROMPT,
-      field_name: 'value',
+      node_path: METADATA,
+      field_name: 'positive_prompt',
       items: extendedPrompts,
     });
 
@@ -197,20 +164,16 @@ export const prepareLinearUIBatch = (
       }
 
       // add to metadata
-      removeMetadataFromMainMetadataNode(graph, 'positive_style_prompt');
-      itemNodesIds.push(BATCH_STYLE_PROMPT);
-      graph.nodes[BATCH_STYLE_PROMPT] = stylePromptMetadataItemNode;
+      removeMetadata(graph, 'positive_style_prompt');
       firstBatchDatumList.push({
-        node_path: BATCH_STYLE_PROMPT,
-        field_name: 'value',
+        node_path: METADATA,
+        field_name: 'positive_style_prompt',
         items: extendedPrompts,
       });
     }
 
     data.push(firstBatchDatumList);
   }
-
-  addBatchMetadataNodeToGraph(graph, itemNodesIds);
 
   const enqueueBatchArg: BatchConfig = {
     prepend,
