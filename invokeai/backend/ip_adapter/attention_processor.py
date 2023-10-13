@@ -67,6 +67,12 @@ class IPAttnProcessor2_0(torch.nn.Module):
         temb=None,
         ip_adapter_image_prompt_embeds=None,
     ):
+        """Apply IP-Adapter attention.
+
+        Args:
+            ip_adapter_image_prompt_embeds (torch.Tensor): The image prompt embeddings.
+                Shape: (batch_size, num_ip_images, seq_len, token_len).
+        """
         residual = hidden_states
 
         if attn.spatial_norm is not None:
@@ -127,8 +133,8 @@ class IPAttnProcessor2_0(torch.nn.Module):
             for ipa_embed, ipa_weights, scale in zip(ip_adapter_image_prompt_embeds, self._weights, self._scales):
                 # The batch dimensions should match.
                 assert ipa_embed.shape[0] == encoder_hidden_states.shape[0]
-                # The channel dimensions should match.
-                assert ipa_embed.shape[2] == encoder_hidden_states.shape[2]
+                # The token_len dimensions should match.
+                assert ipa_embed.shape[-1] == encoder_hidden_states.shape[-1]
 
                 ip_hidden_states = ipa_embed
 
@@ -138,7 +144,7 @@ class IPAttnProcessor2_0(torch.nn.Module):
                 ip_key = ip_key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
                 ip_value = ip_value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
 
-                # The output of sdpa has shape: (batch, num_heads, seq_len, head_dim)
+                # The output of sdpa has shape: (batch, num_heads, query_seq_len, head_dim)
                 # TODO: add support for attn.scale when we move to Torch 2.1
                 ip_hidden_states = F.scaled_dot_product_attention(
                     query, ip_key, ip_value, attn_mask=None, dropout_p=0.0, is_causal=False
